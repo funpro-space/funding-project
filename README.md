@@ -61,6 +61,15 @@ The core contract `FunProRegistry.sol` is currently deployed on **Base Mainnet**
 
 To interact, use your Coinbase Smart Wallet (managed via the official web dashboard at https://keys.coinbase.com) which connects seamlessly on Base Mainnet. No MetaMask or manual RPC configuration is required.
 
+### 🔍 Verifying the Source Code
+Users can view the live smart contract, transaction history, and verify the compiled Solidity source code directly on the block explorer:
+
+Go to [BaseScan](https://basescan.org/).
+
+Paste the contract address into the search bar: `0xfe0ad36ab1f67acb75ebb3ac1b7fd970863d1dcc`
+
+Click on the **Contract** tab. If the contract is verified, a green checkmark will appear next to it, allowing anyone to read and audit the underlying code transparently.
+
 ---
 
 ## 🚀 What's Next: The Onchain Builder Roadmap

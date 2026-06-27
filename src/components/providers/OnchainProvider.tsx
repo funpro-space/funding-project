@@ -57,7 +57,7 @@ export function OnchainProvider({ children }: { children: ReactNode }) {
           theme: 'dark',
           accentColor: '#67a2a4',
           showWalletLoginFirst: true,
-          walletList: ['base_account'],
+          walletList: ['base_account', 'coinbase_wallet', 'metamask', 'rainbow', 'uniswap', 'detected_ethereum_wallets'],
         },
         // Hard-override Privy to only understand Base Mainnet
         defaultChain: baseMainnetOverride,

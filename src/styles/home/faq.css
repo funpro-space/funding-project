@@ -447,6 +447,26 @@ details[open] .rect-faq__block--right {
   height: 1.35em;
 }
 
+.faq-icon-coinbase {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+.faq-icon-metamask {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+.faq-icon-rainbow {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+.faq-icon-uniswap {
+  width: 1.35em;
+  height: 1.35em;
+}
+
 /* Complete reset of browser-default details/summary triangle markers */
 .faq-disclosure-wrapper summary::-webkit-details-marker {
   display: none !important;

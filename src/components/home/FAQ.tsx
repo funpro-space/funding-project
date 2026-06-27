@@ -18,12 +18,40 @@ interface FAQItem {
 }
 
 const renderTextWithIcons = (text: string) => {
-  const regex = /(Base Mainnet|USDC|ETH|Gemini AI|Gemini)/g;
+  const regex = /(Coinbase Smart Wallet|MetaMask|Rainbow|Uniswap|Base Mainnet|USDC|ETH|Gemini AI|Gemini)/g;
   const parts = text.split(regex);
   if (parts.length === 1) return text;
   
   return parts.map((part, index) => {
     switch (part) {
+      case "Coinbase Smart Wallet":
+        return (
+          <span key={index} className="faq-term-wrapper">
+            <Image src="/media/home/icons/coinbase.svg" className="faq-inline-icon faq-icon-coinbase" alt="Coinbase Smart Wallet" width={20} height={20} />
+            Coinbase Smart Wallet
+          </span>
+        );
+      case "MetaMask":
+        return (
+          <span key={index} className="faq-term-wrapper">
+            <Image src="/media/home/icons/metamask.svg" className="faq-inline-icon faq-icon-metamask" alt="MetaMask" width={20} height={20} />
+            MetaMask
+          </span>
+        );
+      case "Rainbow":
+        return (
+          <span key={index} className="faq-term-wrapper">
+            <Image src="/media/home/icons/rainbow.avif" className="faq-inline-icon faq-icon-rainbow" alt="Rainbow" width={20} height={20} />
+            Rainbow
+          </span>
+        );
+      case "Uniswap":
+        return (
+          <span key={index} className="faq-term-wrapper">
+            <Image src="/media/home/icons/uniswap.svg" className="faq-inline-icon faq-icon-uniswap" alt="Uniswap" width={20} height={20} />
+            Uniswap
+          </span>
+        );
       case "Base Mainnet":
         return (
           <span key={index} className="faq-term-wrapper">
@@ -174,7 +202,7 @@ export default function FAQ() {
     {
       id: "how-does-verification-work",
       question: "How does the on-chain verification work?",
-      answer: "By connecting your wallet—such as Coinbase Smart Wallet—you can initialize automated audits. Important milestones and financial commitments are processed through our prediction engine and safely anchored on the Base Mainnet using the FunPro Registry contract."
+      answer: "By connecting your wallet—such as Coinbase Smart Wallet, MetaMask, Rainbow, or Uniswap—you can initialize automated audits. Important milestones and financial commitments are processed through our prediction engine and safely anchored on the Base Mainnet using the FunPro Registry contract."
     },
  {
   "id": "why-base-ecosystem",
@@ -189,12 +217,12 @@ export default function FAQ() {
 {
   "id": "how-do-i-manage-my-base-account",
   "question": "How do I manage my account?",
-  "answer": "It’s completely automatic! When you sign in with your Coinbase Smart Wallet, your secure account is created for you instantly—no passwords required. Everything is designed to give you a smooth, seamless start.",
+  "answer": "It’s completely automatic if using Coinbase Smart Wallet, or standard if using any supported Web3 wallet (such as MetaMask, Rainbow, or Uniswap)! When you sign in, your secure account connection is established instantly. Everything is designed to give you a smooth, seamless start.",
   "subFAQs": [
     {
       "id": "official-dashboard",
       "question": "Where can I see my wallet settings?",
-      "answer": "You can view your security settings, recovery keys, and assets at any time by visiting the official Coinbase dashboard at https://keys.coinbase.com. This gives you total control over your wallet in one clean dashboard."
+      "answer": "If you are using Coinbase Smart Wallet, you can view your security settings, recovery keys, and assets at any time by visiting the official Coinbase dashboard at https://keys.coinbase.com. For other wallets like MetaMask or Rainbow, you can manage your settings directly in their respective extensions or apps."
     },
     {
       "id": "network-switching",

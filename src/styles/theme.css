@@ -276,7 +276,7 @@ h1, h2, h3, h4, .font-display {
   left: 0;
   background: radial-gradient(
     circle 60px at 0% 100%,
-    #3fe9ff,
+    #855af2,
     #693eff,
     transparent
   );
@@ -306,7 +306,7 @@ h1, h2, h3, h4, .font-display {
   left: 0px;
   background: radial-gradient(
     60px at 0px 100%,
-    rgba(0, 225, 255, 0.1),
+    rgba(133, 90, 242, 0.15),
     rgba(105, 62, 255, 0.067),
     rgba(0, 0, 0, 0)
   );

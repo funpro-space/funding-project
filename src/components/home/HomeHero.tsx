@@ -13,7 +13,7 @@ export default function MarketingHero() {
         {/* ⚡ Cleaned Pill Badge — Fully synced to your structural theme variables */}
         <div className="v-badge animate-hero opacity-0">
           <WarningIcon className="v-badge-ai-icon" />
-          <span>Active Developmen <span className="v-badge-detail">(Pre-release)</span></span>
+          <span>Active Development <span className="v-badge-detail">(Pre-release)</span></span>
         </div>
 
         {/* 🚀 Sleek, Direct Funding Headline */}

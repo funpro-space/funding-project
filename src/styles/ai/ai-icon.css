@@ -1,0 +1,22 @@
+/* ai-export/styles/ai-icon.css */
+
+.ai-icon-svg {
+  flex-shrink: 0;
+  animation: ai-flicker 2s linear infinite;
+  animation-delay: 0.5s;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6));
+  transition: fill 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+}
+
+@keyframes ai-flicker {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.modern-menu-item:hover .ai-icon-svg,
+.modern-menu-trigger:hover .ai-icon-svg {
+  fill: #fff;
+  filter: drop-shadow(0 0 3px #669AE1) drop-shadow(0 -4px 6px rgba(0,0,0,0.5));
+  animation: none;
+}

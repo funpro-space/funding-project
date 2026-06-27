@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@import "../styles/theme.css";
+@import "../styles/modernmenu.css";
+@import "../styles/modal.css";
+@import "../styles/workspace.css";
+@import "../styles/buttons.css";
+@import "../styles/button-regular.css";
+@import "../styles/button-regular2.css";
+@import "../styles/dropdown.css";
+@import "../styles/bclick.css";
+@import "../styles/navbar.css";
+@import "../styles/home/stepper.css";
+@import "../styles/home/faq.css";
+@import "../styles/home/badge.css";
+@import "../styles/home/usdc.css";
+@import "../styles/checklist.css";
+@import "../styles/button-loader.css";
+@import "../styles/loader.css";
+
+:root {
+  --background: var(--brand-bg, #09090b);
+  --foreground: var(--brand-text-primary, #ffffff);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--brand-font-body);
+  --font-mono: var(--brand-font-mono);
+  --font-orbitron: var(--brand-font-orbitron);
+  --color-nice-400: #8cb4f5;
+  --color-nice-500: #669ae1;
+  --color-nice-600: #4a7bbd;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--brand-font-body), Arial, Helvetica, sans-serif;
+}
+
+p {
+  font-size: 16px;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('/fonts/Orbitron-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kode Mono';
+  src: url('/fonts/KodeMono-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   DYNAMIC COLORFUL TOP CENTER BORDER GLOW
+   ========================================================================== */
+@keyframes hueRotate {
+  0% {
+    filter: hue-rotate(0) blur(30px);
+  }
+  100% {
+    filter: hue-rotate(360deg) blur(30px);
+  }
+}
+
+.gradient-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.gradient-line:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -75px;
+  height: 75px;
+  filter: blur(30px);
+  -webkit-filter: blur(30px);
+  background-image: conic-gradient(
+    from 180deg at 50% 100%,
+    transparent 0,
+    transparent 27%,
+    #ff3998 27%,
+    #d764ff 36.04%,
+    #00b5ff 58.23%,
+    #0fd 63%,
+    #54fa43 73%,
+    transparent 73%,
+    transparent 100%
+  );
+  animation: hueRotate 2.5s linear infinite;
+}
+
+/* ==========================================================================
+   DYNAMIC COLORFUL BOTTOM CENTER BORDER GLOW
+   ========================================================================== */
+@keyframes hueRotateBottom {
+  0% {
+    filter: hue-rotate(0) blur(15px);
+  }
+  100% {
+    filter: hue-rotate(360deg) blur(15px);
+  }
+}
+
+.gradient-line-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.gradient-line-bottom:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;
+  height: 60px;
+  filter: blur(15px);
+  -webkit-filter: blur(15px);
+  background-image: conic-gradient(
+    from 0deg at 50% 0%,
+    transparent 0,
+    transparent 27%,
+    #ff3998 27%,
+    #d764ff 36.04%,
+    #00b5ff 58.23%,
+    #0fd 63%,
+    #54fa43 73%,
+    transparent 73%,
+    transparent 100%
+  );
+  animation: hueRotateBottom 2.5s linear infinite;
+}
+
+/* Force OnchainKit / Radix Dialog modal and portal to render on top of our modal */
+[data-radix-portal], 
+[class*="ock-"], 
+[class*="ock:"], 
+div[fixed][z-index], 
+[data-testid="ockModalOverlay"],
+.ock-modal {
+  z-index: 1000000 !important;
+}
+
+/* ==========================================================================
+   PRELOADER PREMIUM SHIMMERING BAR ANIMATION
+   ========================================================================== */
+.animate-loader-fill {
+  background: linear-gradient(90deg, #669ae1, #cbd5e1, #8cb4f5, #669ae1);
+  background-size: 300% 100%;
+  animation: loaderShimmer 1.5s linear infinite;
+}
+
+@keyframes loaderShimmer {
+  0% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: -300% 0;
+  }
+}

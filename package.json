@@ -1,0 +1,55 @@
+{
+  "name": "funpro-space",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "npm run lint:strict && npm run typecheck",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "lint:strict": "eslint --max-warnings 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^3.0.80",
+    "@coinbase/agentkit": "^0.10.4",
+    "@coinbase/agentkit-vercel-ai-sdk": "^0.1.0",
+    "@coinbase/onchainkit": "^1.1.2",
+    "@google/genai": "^2.8.0",
+    "@google/generative-ai": "^0.24.1",
+    "@gsap/react": "^2.1.2",
+    "@privy-io/react-auth": "^3.32.1",
+    "@privy-io/wagmi": "^2.1.2",
+    "@solana/kit": "^6.10.0",
+    "@tanstack/react-query": "^5.101.0",
+    "ai": "^6.0.198",
+    "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
+    "lucide-react": "^1.17.0",
+    "mongoose": "^9.7.0",
+    "next": "16.2.6",
+    "ox": "^0.14.29",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-textarea-autosize": "^8.5.9",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0",
+    "viem": "^2.52.2",
+    "wagmi": "^2.19.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "solc": "^0.8.35",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "@base-org/account": "latest"
+  }
+}

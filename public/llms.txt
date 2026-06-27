@@ -1,0 +1,11 @@
+# Funding Project Space — Architecture Index
+
+> An AI-driven underwriting protocol and capital distribution space deployed natively on Base. Evaluates real-world venture metrics using advanced LLM reasoning.
+
+## Core Architecture Primitives
+- [Onchain Provider](/src/components/providers/OnchainProvider.tsx) : Boots Base Mainnet RPC nodes, Coinbase Smart Wallets, and OnchainKit layers.
+- [Animation Engine](/src/components/providers/AnimationEngine.tsx) : Centralized GSAP execution runner managing premium UI motion scripts.
+- [Theme Style Tokens](/src/styles/theme.css) : Single-source-of-truth brand variables for the Light Blue Nice theme spectrum.
+
+## AI Infrastructure Integration
+- [Evaluation Engine API](/src/app/api/evaluate/route.ts) : Processes target business datasets, vectorizes metrics, and triggers structured Gemini-3.5-Flash evaluation outputs.

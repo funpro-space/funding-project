@@ -1,0 +1,67 @@
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: var(--brand-radius-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+/* Sizes using fonts.css variables */
+.btn-sm {
+  font-size: var(--font-size-3);
+  padding: 0.5rem 1rem;
+}
+
+.btn-md {
+  font-size: var(--font-size-4);
+  padding: 0.625rem 1.25rem;
+}
+
+.btn-lg {
+  font-size: var(--font-size-5);
+  padding: 0.75rem 1.5rem;
+}
+
+/* Variants */
+.btn-primary {
+  background-color: var(--brand-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-btn-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--brand-primary-hover);
+}
+
+.btn-primary:active {
+  background-color: var(--brand-primary-active);
+}
+
+.btn-secondary {
+  background-color: var(--brand-surface-light);
+  color: var(--brand-text-primary);
+  border-color: var(--brand-border-light);
+}
+
+.btn-secondary:hover {
+  background-color: var(--brand-border-light);
+  color: var(--color-white);
+}
+
+.btn-secondary:active {
+  background-color: var(--brand-surface);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--brand-text-secondary);
+}
+
+.btn-ghost:hover {
+  background-color: var(--brand-btn-ghost-hover-bg);
+  color: var(--brand-text-primary);
+}

@@ -1,0 +1,284 @@
+/**
+ * 📦 Custom Block Dropdown CSS
+ * Complete standalone styles for the interactive blocky-arrow dropdown list.
+ */
+
+:root {
+  --shared-dropdown-bg-color: rgba(15, 15, 15, 0.95);
+  --shared-dropdown-accent: var(--brand-primary, #669ae1); /* Linked to brand primary nice light blue */
+  --shared-dropdown-border: rgba(255, 255, 255, 0.08);
+  --shared-dropdown-item-hover: rgba(255, 255, 255, 0.1);
+  --shared-dropdown-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shared-dropdown-radius: 12px;
+  --shared-dropdown-item-radius: 8px;
+  --shared-dropdown-destructive: #ff4d4d;
+  --shared-dropdown-destructive-hover: rgba(255, 77, 77, 0.15);
+  --shared-dropdown-muted: rgba(255, 255, 255, 0.4);
+  --shared-dropdown-item-icon: rgba(255, 255, 255, 0.5);
+  --shared-dropdown-item-active-bg: rgba(255, 255, 255, 0.1);
+  --shared-dropdown-item-active-border: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  --shared-dropdown-blur: 16px;
+
+  /* Glossy gradient glow backdrop matching our Web3 Midnight brand aesthetic */
+  --shared-dropdown-bg-gradient: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--shared-dropdown-accent), transparent 90%) 0%,
+    rgba(10, 10, 12, 0.95) 40%,
+    rgba(5, 5, 6, 0.98) 100%
+  );
+}
+
+.dot-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Trigger Button */
+.dot-dropdown__trigger {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-family: var(--brand-font-mono), monospace;
+  font-size: var(--font-size-3, 12px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  user-select: none;
+}
+
+.dot-dropdown__trigger:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.dot-dropdown__trigger:active {
+  transform: scale(0.98);
+}
+
+.dot-dropdown .dot-dropdown__trigger svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* 🟥 Rectangular blocky down arrow icon (pixel-art/logo style) */
+.rect-dropdown__block {
+  fill: rgba(255, 255, 255, 0.5); /* Default white with 50% opacity */
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              fill 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Hover/Open state colors: Use brand primary */
+.dot-dropdown__trigger:hover .rect-dropdown__block,
+.dot-dropdown.dot-dropdown--open .rect-dropdown__block,
+.dot-dropdown__trigger[aria-expanded="true"] .rect-dropdown__block {
+  fill: var(--shared-dropdown-accent);
+}
+
+/* Hover Squeeze: subtle gravitational pull */
+.dot-dropdown__trigger:hover .rect-dropdown__block--1 {
+  transform: translate(3px, 2px);
+}
+.dot-dropdown__trigger:hover .rect-dropdown__block--2 {
+  transform: translate(-3px, 2px);
+}
+.dot-dropdown__trigger:hover .rect-dropdown__block--3 {
+  transform: translate(0, -2px);
+}
+
+/* Open State (Click / data-state="open"): Complete merger into the center block! */
+.dot-dropdown.dot-dropdown--open .rect-dropdown__block--1,
+.dot-dropdown__trigger[aria-expanded="true"] .rect-dropdown__block--1 {
+  transform: translate(12px, 10px);
+}
+
+.dot-dropdown.dot-dropdown--open .rect-dropdown__block--2,
+.dot-dropdown__trigger[aria-expanded="true"] .rect-dropdown__block--2 {
+  transform: translate(-12px, 10px);
+}
+
+.dot-dropdown.dot-dropdown--open .rect-dropdown__block--3,
+.dot-dropdown__trigger[aria-expanded="true"] .rect-dropdown__block--3 {
+  transform: translate(0, -10px);
+}
+
+/* Filter icon support if ever activated */
+.dot-dropdown__trigger--filter {
+  padding: 10px;
+  border-radius: 50%;
+}
+
+/* 🌀 Dropdown Content Portal Panel */
+.dot-dropdown__content {
+  position: fixed;
+  z-index: 99999;
+  min-width: 160px;
+  max-width: 280px;
+  padding: 6px;
+  background: var(--shared-dropdown-bg-gradient);
+  background-color: var(--shared-dropdown-bg-color);
+  backdrop-filter: blur(var(--shared-dropdown-blur));
+  -webkit-backdrop-filter: blur(var(--shared-dropdown-blur));
+  border-radius: var(--shared-dropdown-radius);
+  border: 1px solid var(--shared-dropdown-border);
+  outline: none;
+  box-shadow: var(--shared-dropdown-shadow);
+  transform-origin: var(--radix-dropdown-menu-content-transform-origin, inherit);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Subtly animated decorative corner glass flare */
+.dot-dropdown__content::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--shared-dropdown-accent) 0%,
+    transparent 70%
+  );
+  filter: blur(12px);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Entrance & Exit Animations */
+.dot-dropdown__content[data-state="open"] {
+  animation: dropdown-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.dot-dropdown__content[data-state="closed"] {
+  animation: dropdown-fade-out 0.2s ease-in forwards;
+}
+
+/* Individual Dropdown Menu Item */
+.dot-dropdown__item {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-family: var(--brand-font-mono), monospace;
+  font-size: var(--font-size-3, 12px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: var(--shared-dropdown-item-radius);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  user-select: none;
+}
+
+.dot-dropdown__content[data-state="open"] .dot-dropdown__item {
+  animation: dropdown-item-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+/* Stagger item entrance animations */
+.dot-dropdown__content[data-state="open"] .dot-dropdown__item:nth-child(1) { animation-delay: 20ms; }
+.dot-dropdown__content[data-state="open"] .dot-dropdown__item:nth-child(2) { animation-delay: 40ms; }
+.dot-dropdown__content[data-state="open"] .dot-dropdown__item:nth-child(3) { animation-delay: 60ms; }
+.dot-dropdown__content[data-state="open"] .dot-dropdown__item:nth-child(4) { animation-delay: 80ms; }
+.dot-dropdown__content[data-state="open"] .dot-dropdown__item:nth-child(5) { animation-delay: 100ms; }
+.dot-dropdown__content[data-state="open"] .dot-dropdown__item:nth-child(6) { animation-delay: 120ms; }
+
+.dot-dropdown__item:hover {
+  background-color: var(--shared-dropdown-item-hover);
+  color: #ffffff;
+}
+
+.dot-dropdown__item[data-selected="true"] {
+  background-color: var(--shared-dropdown-item-active-bg);
+  box-shadow: var(--shared-dropdown-item-active-border);
+  color: var(--shared-dropdown-accent);
+  font-weight: 600;
+}
+
+.dot-dropdown__item:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dot-dropdown__item.destructive {
+  color: var(--shared-dropdown-destructive);
+}
+
+.dot-dropdown__item.destructive:hover {
+  background-color: var(--shared-dropdown-destructive-hover);
+  color: #ffffff;
+}
+
+.dot-dropdown__separator {
+  height: 1px;
+  background-color: var(--shared-dropdown-border);
+  margin: 4px 6px;
+}
+
+.dot-dropdown__title {
+  font-family: var(--brand-font-mono), monospace;
+  font-size: var(--font-size-xxs, 10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--shared-dropdown-muted);
+  padding: 6px 12px 2px;
+}
+
+.dot-dropdown__item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Keyframe Animations */
+@keyframes dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dropdown-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+}
+
+@keyframes dropdown-item-in {
+  0% {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

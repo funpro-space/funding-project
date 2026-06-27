@@ -1,0 +1,99 @@
+/* src/styles/home/badge.css */
+
+/* Custom premium badge wrapper - Pure CSS, no Tailwind dependency */
+.v-badge {
+  --icon-color: #764ad0;
+  background-clip: padding-box, border-box;
+background-image: linear-gradient(245deg, rgb(12, 17, 20) 0px, rgb(53, 44, 0) 100%), conic-gradient(from 58deg, rgba(239, 242, 246, 0.36), rgb(72, 72, 72), rgba(209, 229, 254, 0), rgba(247, 248, 250, 0.77), rgb(61, 89, 102));    display: inline-flex;
+    
+  align-items: center;
+  gap: 0.5em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  color: white;
+  font-family: var(--brand-font-mono), monospace;
+  font-size: var(--font-size-4);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 50rem;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+/* AI Icon sizing for the badge */
+.v-badge-ai-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+/* Detail text inside badge hidden on small screens */
+.v-badge-detail {
+  display: none;
+}
+
+.backdrop {
+  inset: 0;
+  display: grid; 
+  place-items: center;
+  pointer-events: none; 
+  user-select: none;
+  z-index: 0;
+}
+.backdrop span {
+  font-weight: 900; font-style: italic;
+  font-size: 40px;
+  line-height: 0.85; 
+  letter-spacing: 0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgb(209 230 255);
+  font-family: 'Orbitron';
+  filter:
+    drop-shadow(0 0 12px rgba(0, 225, 255, 0.4))
+    drop-shadow(0 0 24px rgba(0, 162, 255, 0.2));
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .v-badge {
+    font-size: var(--font-size-4);
+  }
+  .v-badge-ai-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .v-badge-detail {
+    display: inline;
+  }
+  .backdrop span {
+    font-size: 70px;
+    -webkit-text-stroke: 1.8px rgb(209 230 255);
+    filter:
+      drop-shadow(0 0 18px rgba(0, 225, 255, 0.4))
+      drop-shadow(0 0 36px rgba(0, 162, 255, 0.2));
+  }
+}
+
+@media (min-width: 1024px) {
+  .v-badge {
+    font-size: var(--font-size-5);
+  }
+  .v-badge-ai-icon {
+    width: 35px;
+    height: 35px;
+  }
+  .backdrop span {
+    font-size: 100px;
+    -webkit-text-stroke: 2.5px rgb(209 230 255);
+    filter:
+      drop-shadow(0 0 24px rgba(0, 225, 255, 0.4))
+      drop-shadow(0 0 48px rgba(0, 162, 255, 0.2));
+  }
+}

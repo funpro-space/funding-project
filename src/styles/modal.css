@@ -1,0 +1,264 @@
+/* Custom Modal CSS Styles & Transitions */
+
+:root {
+  /* Default fallbacks if target project lacks these CSS variables */
+  --theme-card: var(--brand-surface, #0f172a);
+  --theme-card-foreground: var(--brand-text-primary, #f8fafc);
+  --theme-foreground: var(--brand-text-primary, #f8fafc);
+  --theme-background: var(--brand-bg, #212a39);
+  
+  --shared-modal-max-width: 42rem;
+  --shared-modal-max-width-wide: 80rem;
+  --shared-modal-max-width-compact: 28rem;
+  --shared-modal-pad: 1.25rem;
+  --shared-modal-header-pad: 1.25rem 1.5rem;
+  --shared-modal-gap: 1rem;
+  --shared-modal-title-size: 1.25rem;
+  --shared-modal-description-size: 0.875rem;
+  --shared-modal-body-font-size: 0.9375rem;
+  --shared-modal-max-height: min(90vh, 56rem);
+}
+
+/* Animations */
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes modal-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes modal-scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.96); }
+}
+
+@keyframes modal-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Overlay Backdrop Styling */
+[data-slot="modal-overlay"] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  pointer-events: auto !important;
+}
+
+[data-slot="modal-overlay"][data-state="open"] {
+  animation: modal-fade-in 200ms ease-out forwards !important;
+}
+
+[data-slot="modal-overlay"][data-state="closed"] {
+  animation: modal-fade-out 200ms ease-in forwards !important;
+}
+
+/* Modal Content Dialog Card */
+[data-slot="modal-content"] {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #11111180 !important;
+  color: var(--theme-card-foreground, var(--theme-foreground, #ffffff)) !important;
+  border-radius: 0px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  overflow: visible !important;
+  width: min(96vw - 2rem, var(--shared-modal-max-width)) !important;
+  max-width: calc(100vw - 2rem) !important;
+  max-height: var(--shared-modal-max-height) !important;
+}
+
+[data-slot="modal-content"]:not([data-state="open"]) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Size Variants */
+[data-slot="modal-content"][data-modal-size="wide"] {
+  width: min(98vw, var(--shared-modal-max-width-wide)) !important;
+  min-height: 85vh !important;
+}
+
+[data-slot="modal-content"][data-modal-size="full"] {
+  width: 98vw !important;
+  height: 96vh !important;
+}
+
+[data-slot="modal-content"][data-modal-size="compact"] {
+  width: min(92vw, var(--shared-modal-max-width-compact)) !important;
+}
+
+/* Animations Trigger */
+[data-slot="modal-content"][data-state="open"] {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  animation: modal-scale-in 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+[data-slot="modal-content"][data-state="closed"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  animation: modal-scale-out 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+/* Headers, Body, Footers */
+[data-slot="modal-header"] {
+  padding: var(--shared-modal-header-pad);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  flex-shrink: 0;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  text-align: left !important;
+}
+
+[data-slot="modal-title"] {
+  font-size: var(--shared-modal-title-size);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--theme-foreground, #ffffff) !important;
+}
+
+[data-slot="modal-description"] {
+  font-size: var(--shared-modal-description-size);
+  line-height: 1.5;
+  color: #a1a1a1 !important;
+}
+
+[data-slot="modal-body"] {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  background: var(--theme-card, #111111) !important;
+  padding: var(--shared-modal-pad);
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--shared-modal-gap) !important;
+  font-size: var(--shared-modal-body-font-size);
+}
+
+[data-slot="modal-footer"] {
+  padding: var(--shared-modal-pad);
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: var(--theme-card, #111111) !important;
+  flex-shrink: 0;
+  display: flex !important;
+  gap: 0.75rem !important;
+  justify-content: flex-end !important;
+}
+
+[data-slot="modal-close"] {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  opacity: 0.6;
+  transition: all 200ms;
+  cursor: pointer;
+  color: var(--theme-foreground, #ffffff) !important;
+}
+
+[data-slot="modal-close"]:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 🟥 Rectangular blocky close button (pixel-art/logo style) */
+.modal-close-block-btn {
+  position: absolute;
+  top: 14px;
+  right: 1rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close-block-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-close-block-btn svg {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close-block-btn:hover svg {
+  transform: rotate(90deg);
+}
+
+.rect-close__block {
+  fill: rgba(255, 255, 255, 0.5); /* Default white with 50% opacity */
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              fill 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Hover state colors: Use brand primary */
+.modal-close-block-btn:hover .rect-close__block {
+  fill: var(--brand-primary, #669ae1);
+}
+
+/* On hover, collapse corners into the center block to form a single solid block */
+.modal-close-block-btn:hover .rect-close__block--top-left {
+  transform: translate(20px, 20px);
+}
+
+.modal-close-block-btn:hover .rect-close__block--top-right {
+  transform: translate(-20px, 20px);
+}
+
+.modal-close-block-btn:hover .rect-close__block--bottom-left {
+  transform: translate(20px, -20px);
+}
+
+.modal-close-block-btn:hover .rect-close__block--bottom-right {
+  transform: translate(-20px, -20px);
+}
+
+/* Custom Scrollbar for Modal Body */
+[data-slot="modal-body"]::-webkit-scrollbar {
+  width: 4px;
+}
+
+[data-slot="modal-body"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-slot="modal-body"]::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px;
+}
+
+/* Loader and Spinner Styling */
+.modal-spinner {
+  animation: modal-spin 1s linear infinite !important;
+  border-radius: 50% !important;
+  border: 3px solid rgba(255, 255, 255, 0.12) !important;
+  border-top-color: var(--theme-foreground, #ffffff) !important;
+}
+
+.modal-loader-overlay {
+  background-color: rgba(17, 17, 17, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+}

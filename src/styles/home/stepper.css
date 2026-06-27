@@ -1,0 +1,505 @@
+/* Stepper Wrapper Layout (used in page.tsx) */
+.stepper-section {
+  width: 100%;
+  max-width: 80rem; /* 1152px / max-w-6xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;  /* px-6 */
+  padding-right: 1.5rem; /* px-6 */
+  z-index: -5;
+  position: relative;
+  overflow-x: hidden; /* Crop absolute glows to prevent mobile horizontal expansion */
+}
+
+.stepper-glow-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 300px;
+  background-color: var(--brand-accent-glow);
+  border-radius: 9999px;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .stepper-glow-bg {
+    width: 280px;
+    height: 180px;
+    filter: blur(50px);
+  }
+}
+
+@property --r {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: -90deg;
+}
+
+.stepper-outer-container {
+  position: relative;
+  z-index: 10;
+  padding-bottom: 1.5rem;
+  padding-top: 0;
+  padding-left: 1px;
+  padding-right: 2px;
+  border-radius: 1.3rem;
+  overflow: hidden;
+  box-shadow: 
+    0 0 3rem 2rem #00000075, 
+    0 0 40px rgba(102, 154, 225, 0.35), 
+    0 0 15px rgba(102, 154, 225, 0.2),
+    inset 0 0 2px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(102, 154, 225, 0.15);
+}
+
+.stepper-outer-container:before {
+    content: "";
+    z-index: -1;
+    background-clip: padding-box, border-box;
+    /* background-image: linear-gradient(#000 0px, #000 0px), conic-gradient(from var(--r, -90deg), #fff, #000, #fff, #000, #fff); */
+    mix-blend-mode: color-dodge;
+    opacity: .4;
+    filter: blur(1.5px);
+    background-origin: padding-box, border-box;
+    /* border: 3px solid #0000; */
+    border-radius: 1.6rem;
+    animation: 14s linear infinite stepper-glow;
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 3px rgba(206, 226, 251, 0.3);
+}
+
+@keyframes stepper-glow {
+  100% {
+    --r: 270deg;
+  }
+}
+
+/* Hover effect on tabs using ::after for gradient shine with opacity effect */
+[data-flip-button="button"] {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-flip-button="button"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg, 
+    rgba(102, 154, 225, 0) 0%, 
+    rgba(102, 154, 225, 0.06) 25%, 
+    rgba(102, 154, 225, 0.15) 50%, 
+    rgba(102, 154, 225, 0.06) 75%, 
+    rgba(102, 154, 225, 0) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+[data-flip-button="button"]:hover::after {
+  opacity: 1;
+}
+
+[data-flip-button="button"]:hover {
+  border-color: rgba(203, 213, 225, 0.15);
+  box-shadow: 0 0 15px rgba(102, 154, 225, 0.08);
+}
+
+/* Stepper Component Internal Layout (used in OnchainStepper.tsx) */
+.stepper-inner-container {
+  width: 100%;
+  max-width: 64rem; /* 1024px / max-w-5xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem; /* p-6 */
+  background-color: var(--brand-panel-bg); /* bg-zinc-900/40 */
+  border: 1px solid var(--brand-border);
+  border-radius: var(--brand-radius-lg);
+  backdrop-filter: var(--brand-backdrop-blur);
+}
+
+@media (min-width: 640px) {
+  .stepper-inner-container {
+    padding: 2rem; /* sm:p-8 */
+  }
+}
+
+.stepper-tabs-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* grid-cols-2 */
+  gap: 0.75rem; /* gap-3 */
+  margin-bottom: 2.5rem; /* mb-10 */
+}
+
+@media (min-width: 768px) {
+  .stepper-tabs-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* md:grid-cols-4 */
+  }
+}
+
+.stepper-tab-btn {
+  padding: 0.75rem; /* p-3 */
+  border-radius: var(--brand-radius-sm);
+  border: 1px solid transparent;
+  text-align: left;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* gap-1 */
+  cursor: pointer;
+}
+
+.stepper-tab-btn:focus {
+  outline: none;
+}
+
+.stepper-tab-btn.active {
+  background-color: var(--brand-panel-bg-active); /* bg-zinc-800/60 */
+  border-color: var(--brand-border-light);
+  box-shadow: var(--shadow-tab-ring);
+}
+
+.stepper-tab-btn.inactive {
+  background-color: var(--brand-tab-inactive-bg); /* bg-zinc-950/20 */
+  border-color: transparent;
+}
+
+.stepper-tab-btn.inactive:hover {
+  background-color: var(--brand-panel-bg-hover); /* hover:bg-zinc-800/20 */
+}
+
+.stepper-tab-badge {
+  font-size: var(--font-size-1); /* 10px */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.05em; /* tracking-wider */
+  text-transform: uppercase;
+}
+
+.stepper-tab-badge.live {
+  color: var(--brand-success);
+}
+
+.stepper-tab-badge.stage {
+  color: var(--brand-text-muted);
+}
+
+.stepper-tab-title {
+  font-size: var(--font-size-3); /* 12px */
+  font-weight: 600; /* font-semibold */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* truncate */
+}
+
+.stepper-tab-title.active {
+  color: var(--color-white);
+}
+
+.stepper-tab-title.inactive {
+  color: var(--brand-text-secondary);
+}
+
+/* Split Content Panel */
+.stepper-content-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 2rem; /* gap-8 */
+  align-items: stretch;
+  padding-top: 0.5rem; /* pt-2 */
+  border-top: 1px solid var(--brand-border-muted);
+}
+
+@media (min-width: 1024px) {
+  .stepper-content-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)); /* lg:grid-cols-12 */
+  }
+}
+
+/* Left Column: Stage Text Scope */
+.stepper-desc-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; /* py-2 */
+}
+
+@media (min-width: 1024px) {
+  .stepper-desc-col {
+    grid-column: span 5 / span 5; /* lg:col-span-5 */
+  }
+}
+
+.stepper-desc-badge {
+  display: inline-block;
+  margin-bottom: 0.75rem; /* mb-3 */
+  font-size: var(--font-size-1); /* 10px */
+  text-transform: uppercase;
+  letter-spacing: 0.1em; /* tracking-widest */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  padding: 0.125rem 0.5rem; /* py-0.5 px-2 */
+  border-radius: 0.25rem; /* rounded */
+  border: 1px solid var(--brand-border);
+  background-color: var(--brand-badge-bg); /* bg-zinc-900/60 */
+  color: var(--brand-accent);
+}
+
+.stepper-desc-title {
+  font-size: var(--font-size-7); /* 20px */
+  font-weight: 700; /* font-bold */
+  color: var(--color-white);
+  letter-spacing: -0.025em; /* tracking-tight */
+  margin-bottom: 0.75rem; /* mb-3 */
+}
+
+.stepper-desc-text {
+  font-size: var(--font-size-4); /* 14px */
+  color: var(--brand-text-secondary);
+  line-height: 1.625; /* leading-relaxed */
+}
+
+.stepper-nav-buttons {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .stepper-nav-buttons {
+    display: flex; /* lg:flex */
+    align-items: center;
+    gap: 1rem; /* gap-4 */
+    margin-top: 2rem; /* mt-8 */
+  }
+}
+
+.stepper-nav-btn {
+  font-size: var(--font-size-3); /* 12px */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.stepper-nav-btn.prev {
+  color: var(--brand-text-muted);
+}
+
+.stepper-nav-btn.prev:hover:not(:disabled) {
+  color: var(--color-white);
+}
+
+.stepper-nav-btn.prev:disabled {
+  opacity: 0.2; /* disabled:opacity-20 */
+  cursor: not-allowed;
+}
+
+.stepper-nav-btn.next {
+  color: var(--brand-text-secondary);
+}
+
+.stepper-nav-btn.next:hover:not(:disabled) {
+  color: var(--color-white);
+}
+
+.stepper-nav-btn.next:disabled {
+  opacity: 0.2; /* disabled:opacity-20 */
+  cursor: not-allowed;
+}
+
+/* Right Column: Capability Feature Box */
+.stepper-details-col {
+  background-color: var(--brand-feature-box-bg); /* bg-zinc-950/60 */
+  border: 1px solid var(--brand-feature-box-border); /* border border-zinc-800/80 */
+  border-radius: var(--brand-radius-md);
+  padding: 1.25rem; /* p-5 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 300px;
+}
+
+@media (min-width: 640px) {
+  .stepper-details-col {
+    padding: 1.5rem; /* sm:p-6 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .stepper-details-col {
+    grid-column: span 7 / span 7; /* lg:col-span-7 */
+  }
+}
+
+.stepper-details-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.stepper-details-icon {
+  color: var(--brand-text-muted);
+  font-size: var(--font-size-3); /* text-xs */
+}
+
+.stepper-details-title {
+  font-size: var(--font-size-3); /* 12px */
+  font-weight: 600; /* font-semibold */
+  color: var(--brand-text-secondary);
+  letter-spacing: 0.05em; /* tracking-wider */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-transform: uppercase;
+}
+
+.stepper-details-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-0); /* 9px */
+  text-transform: uppercase;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.05em; /* tracking-wider */
+  color: var(--brand-text-dim);
+  padding-bottom: 0.5rem; /* pb-2 */
+  border-bottom: 1px solid var(--brand-border-muted);
+}
+
+.stepper-records-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stepper-records-stack > div {
+  border-bottom: 1px solid var(--brand-record-row-border); /* divide-zinc-900/60 */
+}
+
+.stepper-records-stack > div:last-child {
+  border-bottom: none;
+}
+
+.stepper-record-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem; /* py-3.5 */
+  font-size: var(--font-size-3); /* text-xs */
+  font-weight: 500; /* font-medium */
+}
+
+.stepper-record-name {
+  color: var(--color-zinc-300);
+}
+
+.stepper-record-status {
+  font-weight: 600; /* font-semibold */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.stepper-action-box {
+  margin-top: 1.5rem; /* mt-6 */
+}
+
+.stepper-action-btn {
+  width: 100%;
+  font-weight: 500; /* font-medium */
+  font-size: var(--font-size-3); /* 12px */
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem; /* py-3 */
+  padding-left: 1rem;
+  padding-right: 1rem; /* px-4 */
+  border-radius: var(--brand-radius-sm);
+  text-align: center;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.stepper-action-btn.active {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-weight: 700; /* font-bold */
+  box-shadow: var(--shadow-btn-active);
+}
+
+.stepper-action-btn.active:hover {
+  background-color: var(--color-zinc-200);
+}
+
+.stepper-action-btn.inactive {
+  background-color: var(--brand-action-inactive-bg); /* bg-zinc-900/40 */
+  color: var(--brand-accent);
+  border-color: var(--brand-action-inactive-border); /* border-nice-950/40 */
+}
+
+.stepper-action-btn.inactive:hover {
+  background-color: var(--brand-surface);
+  border-color: var(--color-nice-900);
+}
+
+/* Custom premium status badges inside stepper tabs */
+.stepper-status-badge {
+  font-family: var(--brand-font-mono), monospace;
+  font-size: var(--font-size-3);
+  font-weight: 700;
+  margin-left: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.125rem 0.5rem;
+  border-radius: 50rem;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  user-select: none;
+}
+
+.stepper-status-badge.completed {
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(245deg, rgb(12, 17, 20) 0px, rgb(20, 53, 0) 100%), conic-gradient(from 58deg, rgba(178, 231, 13, 0.4), rgb(72, 72, 72), rgba(178, 231, 13, 0), rgba(178, 231, 13, 0.8), rgb(61, 89, 102));
+  border: 1.5px solid transparent;
+  color: var(--brand-success-color);
+  box-shadow: 0 0 8px rgba(178, 231, 13, 0.15);
+}
+
+.stepper-status-badge.next {
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(245deg, rgb(12, 17, 20) 0px, rgb(0, 24, 53) 100%), conic-gradient(from 58deg, rgba(102, 154, 225, 0.4), rgb(72, 72, 72), rgba(102, 154, 225, 0), rgba(102, 154, 225, 0.8), rgb(61, 89, 102));
+  border: 1.5px solid transparent;
+  color: var(--brand-primary);
+  box-shadow: 0 0 8px rgba(102, 154, 225, 0.15);
+}
+
+/* Premium description badge in step details */
+.stepper-content-badge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--brand-font-mono), monospace;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50rem;
+  border: 1.5px solid transparent;
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(245deg, rgb(12, 17, 20) 0px, rgb(20, 24, 35) 100%), conic-gradient(from 58deg, rgba(203, 213, 225, 0.4), rgb(72, 72, 72), rgba(203, 213, 225, 0), rgba(203, 213, 225, 0.8), rgb(61, 89, 102));
+  color: var(--brand-text-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  user-select: none;
+}

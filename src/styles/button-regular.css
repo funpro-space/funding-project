@@ -1,0 +1,103 @@
+/* button-regular.css styles */
+
+.button-regular {
+  all: unset;
+  font-family: var(--brand-font-body, inherit);
+  font-size: var(--font-size-5);
+  border-radius: var(--brand-radius-lg, 12px);
+  color: rgb(218, 218, 218);
+  padding: 2px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content !important;
+  border: 1px solid var(--brand-border-light); /* Clean synchronized variable edge */
+  gap: 0;
+}
+
+.button-regular-icon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+}
+
+.button-regular-inner {
+  border-radius: calc(var(--brand-radius-lg, 12px) - 2px);
+  text-shadow: 0px 0px 20px #4b4b4b;
+  width: fit-content !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  transition: all 0.3s;
+  background-color: var(--brand-panel-bg); 
+  -webkit-backdrop-filter: var(--brand-backdrop-blur);
+  backdrop-filter: var(--brand-backdrop-blur);
+  background-image: radial-gradient(at 95% 89%, rgba(15, 15, 15, 0.5) 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, rgba(17, 17, 17, 0.5) 0px, transparent 50%),
+                    radial-gradient(at 0% 0%, rgba(29, 29, 29, 0.6) 0px, transparent 50%);
+  position: relative;
+  z-index: 1;
+}
+
+.button-regular-text {
+  padding: 5px 12px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-regular-icon + .button-regular-text {
+  padding-left: 6px;
+}
+
+/* Accent variant — Fully linked to root theme, no hardcoded blues */
+.button-regular.accent .button-regular-inner {
+  background-color: var(--brand-primary-glow);
+  background-image: radial-gradient(at 95% 89%, rgba(102, 154, 225, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, rgba(102, 154, 225, 0.05) 0px, transparent 50%);
+  border: 1px solid var(--brand-primary-border);
+  color: #fff;
+  text-shadow: 0 0 10px var(--brand-primary-glow);
+  width: fit-content;
+}
+
+.button-regular.accent:hover .button-regular-inner {      
+  background-color: rgba(102, 154, 225, 0.3);
+  border-color: rgba(102, 154, 225, 0.5);
+  width: fit-content;
+}
+
+.button-regular:hover .button-regular-inner {
+  background-color: var(--brand-panel-bg-hover);
+  border-color: var(--brand-border-light);
+  width: fit-content;
+}
+
+.button-regular:disabled {
+  opacity: 0.5;
+  pointer-events: none !important;
+  cursor: not-allowed;
+}
+
+.button-regular-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(rgb(48, 47, 47) 0.0000001%, rgb(51, 51, 51) 0.000104%) 60% 60%/600% 600%;    
+  filter: opacity(10%) contrast(105%);
+  -webkit-filter: opacity(10%) contrast(105%);
+}
+
+.button-regular svg {
+  width: 15px;
+  height: 15px;
+}

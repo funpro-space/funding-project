@@ -1,0 +1,25 @@
+[data-animation="bClick"] {
+  position: relative;
+  overflow: hidden;
+}
+
+.bClick {
+  width: 1px;
+  height: 1px;
+  position: absolute !important;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.22);
+  animation: bClickEffect 0.55s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes bClickEffect {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(var(--scale));
+    opacity: 0;
+  }
+}

@@ -1,0 +1,246 @@
+/* src/styles/theme.css */
+
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 135deg;
+  inherits: false;
+}
+
+:root {
+  /* ==========================================================================
+     1. BRAND CORE SYSTEM (Premium Dark-First Web3 Platform - Midnight Theme)
+     ========================================================================== */
+  --brand-bg: #212a39;;              /* Premium Slate-950 Midnight Black Base */
+  --brand-surface: #111;         /* Section Surface Mid-Ground */
+  --brand-surface-card: #1e293b;    /* Pure Dashboard Card Backplate */
+  --brand-surface-light: #334155;   /* Slate-700 Highlight Backplate */
+  --brand-input: #000000;           /* Deep Input Screen Sink */
+  --brand-gradient-gray: linear-gradient(178deg, #313131, #000000);
+  --brand-gradient-active-tab: linear-gradient(var(--gradient-angle, 135deg), #55555570, #292b2d);
+
+  /* ==========================================================================
+     2. UNIFIED ACCENTS (Nice Light Blue & Operational Onchain Emerald)
+     ========================================================================== */
+  /* Nice Light Blue Accent Framework — Synced across buttons and layouts */
+  --brand-primary: #9ac7ff; 
+  --brand-primary-hover: #8cb4f5;
+  --brand-primary-active: #b0cdff;
+  --brand-primary-glow: rgba(102, 154, 225, 0.15);
+  --brand-primary-border: rgba(102, 154, 225, 0.3);
+
+  /* Moonlight System — Premium pale non-interactive highlights & slate details */
+  --brand-moon: #cbd5e1;
+  --brand-moon-glow: rgba(203, 213, 225, 0.06);
+  --brand-moon-border: rgba(203, 213, 225, 0.15);
+
+  /* Active Tab Moonlight Shine */
+  --brand-tab-active-border: rgba(226, 232, 240, 0.45);
+  --shadow-tab-active-glow: 0 0 20px 0 rgba(226, 232, 240, 0.15), 0 0 2px 1px rgba(226, 232, 240, 0.25);
+
+  /* Live Success Signals — Consolidating limegreen vs emerald anomalies */
+  --brand-success: #b2e70d; 
+  --brand-success-glow: rgba(16, 185, 129, 0.1); 
+  --brand-success-border: #59961d;
+  --brand-success-color: #b2e70d;
+
+  /* Live Danger Signals — For incomplete details or error metrics */
+  --brand-danger: #ef4444;
+  --brand-danger-glow: rgba(239, 68, 68, 0.12);
+  --brand-danger-border: rgba(239, 68, 68, 0.35);
+  --brand-danger-color: #f87171;
+
+  /* Live Warning Signals — For moderate indicators */
+  --brand-warning: #fbbf24;
+  --brand-warning-glow: rgba(251, 191, 36, 0.12);
+  --brand-warning-border: rgba(251, 191, 36, 0.35);
+  --brand-warning-color: #fbbf24;
+
+  /* Live Info Signals — For prompt helpers and menu backgrounds */
+  --brand-info: #3b82f6;
+  --brand-info-glow: rgba(59, 130, 246, 0.15);
+  --brand-info-border: rgba(59, 130, 246, 0.35);
+  --brand-info-color: #9ac7ff;
+  /* ==========================================================================
+     3. TYPOGRAPHY SCALING & GEOMETRY
+     ========================================================================== */
+  --brand-font-display: 'Inter Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --brand-font-body: 'Kode Mono', monospace;        
+  --brand-font-mono: 'Kode Mono', monospace;
+  --brand-font-orbitron: 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Strict Web3 Component Sizing Scale */
+  --font-size-xxs: 10px;
+  --font-size-0: 9px;
+  --font-size-1: 10px;
+  --font-size-2: 11px;
+  --font-size-3: 12px;
+  --font-size-4: 14px;
+  --font-size-5: 16px;
+  --font-size-6: 18px;
+  --font-size-7: 20px;
+  --font-size-8: 22px;
+  --font-size-9: 24px;
+  --font-size-10: 30px;
+  --font-size-11: 36px;
+
+  /* Text Colors */
+  --brand-text-primary: #f8fafc;    /* Absolute High Contrast Core Content */
+  --brand-text-secondary: #cbd5e1;  /* Balanced Secondary Slate-300 Reading Texts */
+  --brand-text-dim: #94a3b8;        /* Slate-400 Labels */
+  --brand-text-muted: #64748b;      /* Distant Muted Metadata Labels */
+
+  /* ==========================================================================
+     4. STRUCTURAL BORDERS & LAYOUT HELPERS
+     ========================================================================== */
+  --brand-border: #566d77;          /* Clean component separation layer (Moonlight) */
+  --brand-border-light: rgba(203, 213, 225, 0.15);    /* Active state lines (Moonlight) */
+
+  --brand-radius-sm: 0.375rem;
+  --brand-radius-md: 0.5rem;
+  --brand-radius-lg: 0.75rem;
+  --brand-backdrop-blur: blur(8px);
+
+  /* Translucent Interactive Overlays */
+  --brand-nav-bg: rgba(2, 6, 23, 0.8);
+  --brand-panel-bg: rgba(30, 41, 59, 0.4);
+  --brand-panel-bg-hover: rgba(51, 65, 85, 0.2);
+  --brand-panel-bg-active: rgba(51, 65, 85, 0.6);
+  --brand-tab-inactive-bg: rgba(2, 6, 23, 0.2);
+  --brand-btn-ghost-hover: rgba(255, 255, 255, 0.05);
+
+  /* ==========================================================================
+     5. ELEVATION SHADOWS & GLOW RINGS
+     ========================================================================== */
+  --brand-shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.5);
+  --brand-shadow-md: 0 12px 24px -4px rgba(0, 0, 0, 0.7), 0 4px 12px -2px rgba(0, 0, 0, 0.5);   
+
+  --shadow-btn-primary: 0 0 20px 0 var(--brand-primary-glow);
+  --shadow-primary-glow: 0 0 30px 0 var(--brand-primary-glow), 0 0 2px 1px var(--brand-primary-border);
+  --shadow-success-glow: 0 0 25px 0 var(--brand-success-glow), 0 0 2px 1px var(--brand-success-border);
+
+  /* ==========================================================================
+     6. COMPATIBILITY & LAYOUT ALIGNMENTS
+     ========================================================================== */
+  --brand-accent: var(--brand-primary);
+  --brand-accent-glow: var(--brand-primary-glow);
+  --brand-accent-border: var(--brand-primary-border);
+
+  --brand-border-dark: var(--brand-border-light);
+  --brand-border-muted: var(--brand-border);
+  --brand-badge-bg: rgba(203, 213, 225, 0.05);
+  --brand-feature-box-bg: rgba(15, 23, 42, 0.4);
+  --brand-feature-box-border: rgba(203, 213, 225, 0.10);
+  --brand-record-row-border: rgba(255, 255, 255, 0.05);
+  --brand-btn-ghost-hover-bg: var(--brand-btn-ghost-hover);
+}
+
+/* ==========================================================================
+   7. GLOBAL APP OVERRIDES & TEXT SMOOTHING SELECTORS
+   ========================================================================== */
+html, body {
+  font-family: var(--brand-font-body);
+  background-color: var(--brand-bg);
+  color: var(--brand-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+p {
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--brand-font-display);
+  letter-spacing: -0.025em;
+}
+
+.font-mono {
+  font-family: var(--brand-font-mono);
+}
+
+.home-bg {
+  background-color: var(--brand-bg);
+}
+
+.home-bg-image {
+  background-image: url('/media/home/bg.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ==========================================================================
+   8. SHARED COMPONENT STYLES
+   ========================================================================== */
+.brand-paragraph {
+  color: var(--brand-text-secondary);
+  font-size: var(--font-size-5);
+  line-height: 1.625;
+  font-weight: 400;
+}
+
+@media (min-width: 640px) {
+  .brand-paragraph {
+    font-size: var(--font-size-6);
+  }
+}
+
+.brand-h3 {
+  font-family: var(--brand-font-orbitron), sans-serif;
+  font-size: var(--font-size-7);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 640px) {
+  .brand-h3 {
+    font-size: var(--font-size-8);
+  }
+}
+
+.brand-h4 {
+  font-family: var(--brand-font-display);
+  font-size: var(--font-size-5);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--brand-text-primary);
+  line-height: 1.45;
+}
+
+@media (min-width: 640px) {
+  .brand-h4 {
+    font-size: var(--font-size-6);
+  }
+}
+
+/* Custom Scrollbar for Workspace View & Containers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(51, 65, 85, 0.75) !important;
+  border: 1.5px solid rgba(15, 23, 42, 0.9);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 85, 105, 0.9) !important;
+}
+
+/* Firefox Support */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(51, 65, 85, 0.75) rgba(15, 23, 42, 0.4);
+}

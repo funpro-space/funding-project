@@ -1,0 +1,146 @@
+/* button-regular2.css - Nice glassmorphism and gradient border buttons */
+
+.button-regular2 {
+  all: unset;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px; /* Create a 2px boundary for gradient border */
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: var(--brand-font-body, inherit);
+  position: relative;
+  overflow: hidden;
+  width:fit-content;
+}
+
+.button-regular2-inner {
+  border-radius: 13px; /* 15px outer - 2px padding */
+  background-color: #121214; /* Deep dark background matching theme panels */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #fff;
+  font-weight: 600;
+  width: 100%;
+  height: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  font-size: 0.875rem; /* text-sm */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.button-regular2-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.button-regular2-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+.button-regular2-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-regular2:disabled {
+  opacity: 0.5;
+  pointer-events: none !important;
+  cursor: not-allowed;
+}
+
+/* Theme Blue (Default/Email) */
+.button-regular2.theme-blue {
+  background: linear-gradient(
+    to bottom right,
+    #2e8eff 0%,
+    rgba(46, 142, 255, 0) 40%
+  );
+  background-color: rgba(46, 142, 255, 0.15);
+}
+
+.button-regular2.theme-blue:hover:not(:disabled),
+.button-regular2.theme-blue:focus:not(:disabled) {
+  background-color: rgba(46, 142, 255, 0.5);
+  box-shadow: 0 0 15px rgba(46, 142, 255, 0.4);
+  outline: none;
+}
+
+.button-regular2.theme-blue:hover:not(:disabled) .button-regular2-inner {
+  background-color: #16161a;
+}
+
+/* Theme Purple (Mobile SMS) */
+.button-regular2.theme-purple {
+  background: linear-gradient(
+    to bottom right,
+    #a855f7 0%,
+    rgba(168, 85, 247, 0) 40%
+  );
+  background-color: rgba(168, 85, 247, 0.15);
+}
+
+.button-regular2.theme-purple:hover:not(:disabled),
+.button-regular2.theme-purple:focus:not(:disabled) {
+  background-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+  outline: none;
+}
+
+.button-regular2.theme-purple:hover:not(:disabled) .button-regular2-inner {
+  background-color: #18151c;
+}
+
+/* Theme Emerald (Success/Alternative) */
+.button-regular2.theme-emerald {
+  background: linear-gradient(
+    to bottom right,
+    #10b981 0%,
+    rgba(16, 185, 129, 0) 40%
+  );
+  background-color: rgba(16, 185, 129, 0.15);
+}
+
+.button-regular2.theme-emerald:hover:not(:disabled),
+.button-regular2.theme-emerald:focus:not(:disabled) {
+  background-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  outline: none;
+}
+
+.button-regular2.theme-emerald:hover:not(:disabled) .button-regular2-inner {
+  background-color: #131715;
+}
+
+/* Theme Amber (Warning/Alternative) */
+.button-regular2.theme-amber {
+  background: linear-gradient(
+    to bottom right,
+    #f59e0b 0%,
+    rgba(245, 158, 11, 0) 40%
+  );
+  background-color: rgba(245, 158, 11, 0.15);
+}
+
+.button-regular2.theme-amber:hover:not(:disabled),
+.button-regular2.theme-amber:focus:not(:disabled) {
+  background-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+  outline: none;
+}
+
+.button-regular2.theme-amber:hover:not(:disabled) .button-regular2-inner {
+  background-color: #191612;
+}

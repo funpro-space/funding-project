@@ -1,0 +1,76 @@
+/* src/styles/loader.css */
+
+.funpro-loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+}
+
+.funpro-loader-container.full-screen {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 50;
+}
+
+/* Premium Logo-aligned rectangle loading animation with brand color */
+.funpro-loader-spinner,
+.funpro-loader-container .loader-rectangles {
+  color: var(--brand-primary, #669ae1);
+}
+
+.funpro-loader-text {
+  font-family: var(--brand-font-mono, 'Kode Mono', monospace);
+  font-size: var(--font-size-1, 10px);
+  font-weight: bold;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-text-secondary, #cbd5e1);
+  animation: funpro-loader-text-pulse 1.5s ease-in-out infinite;
+  text-align: center;
+}
+
+@keyframes funpro-loader-text-pulse {
+  0%, 100% {
+    opacity: 0.55;
+    text-shadow: 0 0 4px rgba(102, 154, 225, 0.1);
+  }
+  50% {
+    opacity: 1;
+    color: var(--brand-primary-hover, #8cb4f5);
+    text-shadow: 0 0 12px rgba(102, 154, 225, 0.4);
+  }
+}
+
+@keyframes funpro-loader-rectangles {
+  0%, 100% {
+    box-shadow: -28px 0 0 2px, -20px 0, -12px 0, -4px 0, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  12.5% {
+    box-shadow: -28px 0 0 1px, -20px 0 0 2px, -12px 0, -4px 0, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  25% {
+    box-shadow: -28px 0, -20px 0 0 1px, -12px 0 0 2px, -4px 0, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  37.5% {
+    box-shadow: -28px 0, -20px 0, -12px 0 0 1px, -4px 0 0 2px, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  50% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0 0 1px, 4px 0 0 2px, 12px 0, 20px 0, 28px 0;
+  }
+  62.5% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0, 4px 0 0 1px, 12px 0 0 2px, 20px 0, 28px 0;
+  }
+  75% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0, 4px 0, 12px 0 0 1px, 20px 0 0 2px, 28px 0;
+  }
+  87.5% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0, 4px 0, 12px 0, 20px 0 0 1px, 28px 0 0 2px;
+  }
+}

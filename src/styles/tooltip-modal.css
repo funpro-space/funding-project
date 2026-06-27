@@ -1,0 +1,225 @@
+/* src/styles/tooltip-modal.css */
+
+/* Overlay wrapper */
+.tooltip-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.tooltip-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Content Card */
+.tooltip-modal-card {
+  width: 90%;
+  max-width: 440px;
+  background: var(--brand-surface, #0f172a);
+  border: 1px solid var(--brand-primary-border, rgba(102, 154, 225, 0.3));
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 
+              0 0 30px 0 var(--brand-primary-glow, rgba(102, 154, 225, 0.15));
+  padding: 1.75rem;
+  position: relative;
+  transform: scale(0.95) translateY(15px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--brand-text-primary, #f8fafc);
+  font-family: var(--brand-font-body, 'Kode Mono', monospace);
+}
+
+.tooltip-modal-overlay.open .tooltip-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+/* Close button */
+.tooltip-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--brand-text-dim, #94a3b8);
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.tooltip-modal-close:hover {
+  color: var(--brand-primary, #669ae1);
+  background: var(--brand-panel-bg-hover, rgba(51, 65, 85, 0.2));
+}
+
+.tooltip-modal-title {
+  font-size: var(--font-size-6, 18px);
+  font-weight: 800;
+  color: var(--brand-primary, #669ae1);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-family: var(--brand-font-orbitron, sans-serif);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 12px var(--brand-primary-glow, rgba(102, 154, 225, 0.15));
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--brand-border, rgba(203, 213, 225, 0.08));
+  padding-bottom: 0.75rem;
+}
+
+/* ==========================================================================
+   Morphing Accordion (FAQ) Core Styles - Adapted from playground/faq/style.css
+   ========================================================================== */
+
+.morphing-disclosure {
+  transform-style: preserve-3d;
+  perspective: 120px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.morphing-disclosure details {
+  background: var(--brand-surface-card, #1e293b);
+  border-inline: 1px solid var(--brand-border, rgba(203, 213, 225, 0.08));
+  border-block-end: 1px solid var(--brand-border, rgba(203, 213, 225, 0.08));
+  position: relative;
+  transition: all 0.26s ease;
+  transform: translateZ(0);
+}
+
+.morphing-disclosure details:first-of-type {
+  border-top: 1px solid var(--brand-border, rgba(203, 213, 225, 0.08));
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.morphing-disclosure details:last-of-type {
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+/* Active details highlight border */
+.morphing-disclosure details[open] {
+  border-color: var(--brand-primary, #669ae1) !important;
+  background: var(--brand-surface-light, #334155);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 10px var(--brand-primary-glow, rgba(102, 154, 225, 0.15));
+  z-index: 10;
+}
+
+/* Exclusive accordion translation layout spacing */
+.morphing-disclosure[data-translate='true'] details {
+  transition: translate 0.26s ease, background-color 0.26s ease, border-color 0.26s ease;
+}
+
+.morphing-disclosure[data-translate='true'] details:has(~ details[open]) {
+  translate: 0 -0.5rem;
+}
+
+.morphing-disclosure[data-translate='true'] details[open] ~ details {
+  translate: 0 0.5rem;
+}
+
+/* Hover style */
+.morphing-disclosure details:has(summary:hover) {
+  background: var(--brand-surface-light, #334155);
+}
+
+/* Summary styling */
+.morphing-disclosure summary {
+  padding: 0.875rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  outline: none;
+  font-weight: 600;
+  font-size: var(--font-size-3, 12px);
+  color: var(--brand-text-secondary, #cbd5e1);
+  transition: color 0.2s ease;
+}
+
+.morphing-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.morphing-disclosure summary::marker {
+  font-size: 0px;
+  display: none;
+}
+
+.morphing-disclosure summary svg {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+  color: var(--brand-text-dim, #94a3b8);
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.morphing-disclosure summary svg:first-of-type {
+  width: 18px;
+  height: 18px;
+  color: var(--brand-primary, #669ae1);
+}
+
+.morphing-disclosure summary svg:last-of-type {
+  transition: transform 0.26s ease, opacity 0.26s ease;
+}
+
+.morphing-disclosure details[open] summary {
+  color: var(--brand-text-primary, #f8fafc);
+}
+
+.morphing-disclosure details[open] summary svg:last-of-type {
+  transform: rotate(225deg);
+  opacity: 1;
+  color: var(--brand-primary, #669ae1);
+}
+
+.morphing-disclosure details:hover summary svg {
+  opacity: 1;
+}
+
+/* Content block with smooth reveal transition */
+.morphing-disclosure .content {
+  padding: 0 1rem 1rem 2.5rem;
+  font-size: var(--font-size-3, 12px);
+  color: var(--brand-text-secondary, #cbd5e1);
+  line-height: 1.6;
+  opacity: 0.4;
+  filter: blur(4px);
+  transform: translateY(0.5rem);
+  transition: opacity 0.26s ease, filter 0.26s ease, transform 0.26s ease;
+}
+
+.morphing-disclosure details[open] .content {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* Modern native height transition helper if browser supports interpolate-size */
+@supports (interpolate-size: allow-keywords) {
+  .morphing-disclosure details::details-content {
+    height: 0;
+    transition: height 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+  }
+  .morphing-disclosure details[open]::details-content {
+    height: fit-content;
+  }
+}

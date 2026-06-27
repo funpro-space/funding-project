@@ -1,0 +1,92 @@
+/* Namespaced styles for shared ButtonLoader component, utilizing Style 3 (loader3) from playground */
+
+.btn-loader {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure children are centered and laid out nicely */
+.btn-loader-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s, transform 0.2s;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-loader.is-loading .btn-loader-text {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+/* Loader wrapper overlay */
+.btn-loader-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  border-radius: inherit;
+  transition: transform 0.2s, opacity 0.2s;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.btn-loader.is-loading .btn-loader-overlay {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Style 3 - Rectangle animations from playground/button-loader */
+.loader-rectangles {
+  color: currentColor;
+  font-size: 20px;
+  width: 2px;
+  height: 14px;
+  position: relative;
+  text-indent: -9999em;
+  animation: btn-loader-rectangles 1.5s infinite linear;
+  transform: skew(135deg);
+  display: block;
+  margin: 0 auto;
+}
+
+@keyframes btn-loader-rectangles {
+  0%, 100% {
+    box-shadow: -28px 0 0 2px, -20px 0, -12px 0, -4px 0, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  12.5% {
+    box-shadow: -28px 0 0 1px, -20px 0 0 2px, -12px 0, -4px 0, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  25% {
+    box-shadow: -28px 0, -20px 0 0 1px, -12px 0 0 2px, -4px 0, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  37.5% {
+    box-shadow: -28px 0, -20px 0, -12px 0 0 1px, -4px 0 0 2px, 4px 0, 12px 0, 20px 0, 28px 0;
+  }
+  50% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0 0 1px, 4px 0 0 2px, 12px 0, 20px 0, 28px 0;
+  }
+  62.5% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0, 4px 0 0 1px, 12px 0 0 2px, 20px 0, 28px 0;
+  }
+  75% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0, 4px 0, 12px 0 0 1px, 20px 0 0 2px, 28px 0;
+  }
+  87.5% {
+    box-shadow: -28px 0, -20px 0, -12px 0, -4px 0, 4px 0, 12px 0, 20px 0 0 1px, 28px 0 0 2px;
+  }
+}

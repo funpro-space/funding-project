@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import AnimationEngine from '@/components/providers/AnimationEngine';
@@ -106,7 +107,7 @@ export default function HomeLayout({
             </div>
 
             {/* Legal / Policy Links */}
-            <div className="flex justify-center gap-4 text-[14px] font-bold font-mono uppercase tracking-wider my-1">
+            <div className="flex justify-center gap-8 text-[14px] font-bold font-mono uppercase tracking-wider my-1">
               <Link 
                 href="/terms" 
                 onClick={() => handleLinkClick("Loading Terms of Service...", "/terms")}
@@ -114,7 +115,6 @@ export default function HomeLayout({
               >
                 Terms of Service
               </Link>
-              <span className="text-[var(--brand-border)] opacity-30">|</span>
               <Link 
                 href="/privacy" 
                 onClick={() => handleLinkClick("Loading Privacy Policy...", "/privacy")}
@@ -124,8 +124,49 @@ export default function HomeLayout({
               </Link>
             </div>
 
+            {/* Glassmorphic Social Section */}
+            <div className="social-glass-btn mt-2">
+              <div className="social-glass-blob1"></div>
+              <div className="social-glass-inner">
+                <a 
+                  href="https://warpcast.com/funpro" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-[var(--brand-text-dim)] hover:text-[var(--brand-primary)] text-[13px] font-bold font-mono uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 relative z-10"
+                >
+                  <div className="relative w-4 h-4 flex items-center justify-center">
+                    {/* Glowing Blurred Drop-Shadow (Reusing the image itself as a colored glow) */}
+                    <Image 
+                      src="/media/home/icons/warpcast.avif" 
+                      alt="" 
+                      width={16} 
+                      height={16} 
+                      className="absolute w-4 h-4 rounded-sm object-contain blur-[5px] opacity-80 scale-125 pointer-events-none select-none z-0"
+                    />
+                    {/* Clean Foreground Icon */}
+                    <Image 
+                      src="/media/home/icons/warpcast.avif" 
+                      alt="Warpcast" 
+                      width={16} 
+                      height={16} 
+                      className="relative w-4 h-4 rounded-sm object-contain z-10"
+                    />
+                  </div>
+                  Farcaster
+                </a>
+                <a 
+                  href="https://basescan.org/address/0xfe0ad36ab1f67acb75ebb3ac1b7fd970863d1dcc" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-[var(--brand-text-dim)] hover:text-[var(--brand-primary)] text-[13px] font-bold font-mono uppercase tracking-wider transition-colors duration-200 relative z-10"
+                >
+                  Verified Contract
+                </a>
+              </div>
+            </div>
+
             {/* Bottom Line: Smaller, Darker Copyright Text */}
-            <div className=" text-[var(--brand-text-muted)] tracking-wider uppercase font-mono mt-5">
+            <div className=" text-[var(--brand-text-muted)] tracking-wider uppercase font-mono mt-5 text-sm">
               © 2026 funpro.space. All rights reserved. Built for the Base ecosystem.
             </div>
 

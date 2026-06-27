@@ -189,7 +189,7 @@ export default function FAQ() {
     {
       id: "how-do-i-manage-my-base-account",
       question: "How do I manage my Base account?",
-      answer: "Our platform operates exclusively on Base Mainnet and uses Coinbase Smart Wallet with passkeys. Traditional browser extensions like MetaMask or Rainbow are not supported on this interface. Your secure Base account is automatically created on login.",
+      answer: "Our platform is optimized for Base Mainnet and utilizes Coinbase Smart Wallet with secure passkeys. Your secure Base account is automatically created for you upon login, providing a frictionless onboarding experience.",
       subFAQs: [
         {
           id: "official-dashboard",

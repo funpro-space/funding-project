@@ -13,7 +13,7 @@ export default function MarketingHero() {
         {/* ⚡ Cleaned Pill Badge — Fully synced to your structural theme variables */}
         <div className="v-badge animate-hero opacity-0">
           <WarningIcon className="v-badge-ai-icon" />
-          <span>Active Development Sandbox <span className="v-badge-detail">(Not live yet for public)</span></span>
+          <span>Active Developmen <span className="v-badge-detail">(Pre-release)</span></span>
         </div>
 
         {/* 🚀 Sleek, Direct Funding Headline */}
@@ -26,25 +26,39 @@ export default function MarketingHero() {
 
         {/* 🎯 Nice, Simple, and Human-Readable Subtext */}
         <p className="brand-paragraph animate-hero opacity-0 mt-4 mx-auto max-w-5xl">
-          A Web3 advisory and milestone ecosystem built for the physical economy. We provide tools and milestone-driven funding structures designed to support talented artists, craftspeople, farmers, and sustainable producers looking to grow structured projects.
-        </p>
+We connect Web3 and the real-world economy. Through specialized tools and milestone-based funding, we empower artists, craftspeople, farmers, and sustainable producers to build and scale their projects.        </p>
 
         
         {/* 🌐 Network and Settlement Metadata */}
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 items-center text-[var(--font-size-xxs)] font-bold uppercase tracking-wider opacity-85 animate-hero opacity-0 mt-6">
-          <span className="text-[var(--brand-text-dim)] font-mono normal-case">
-            Network Target: Base Mainnet
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 items-center text-[var(--font-size-xxs)] font-bold uppercase tracking-wider opacity-85 animate-hero opacity-0 mt-6">
+          <span className="flex items-center gap-1.5 text-[var(--brand-text-dim)] font-mono normal-case">
+            Powered by
+            <Image 
+              src="/media/home/icons/base-mainnet.svg" 
+              alt="Base" 
+              width={16} 
+              height={16} 
+              className="object-contain"
+            />
+            Base
           </span>
-          <span className="text-[var(--brand-border)] opacity-40">•</span>
-          <span className="text-[var(--brand-success)] font-mono opacity-90">
-            Settlement Asset: USDC
+          <span className="flex items-center gap-1.5 text-[var(--brand-success)] font-mono opacity-90">
+            Currency:
+            <Image 
+              src="/media/home/icons/usdc.svg" 
+              alt="USDC" 
+              width={18} 
+              height={18} 
+              className="object-contain"
+            />
+            USDC
           </span>
         </div>
 
       </section>
 
       {/* 🛤️ Rails Divider with Ambient Shadow Glow */}
-      <div className="w-full animate-hero-fade opacity-0 relative py-6"
+      <div className="w-full animate-hero-fade opacity-0 relative py-6 z-100"
       style={{ maxHeight: 1 }}>
         {/* Glow Shadow (Duplicate image placed behind) */}
         <div className="absolute inset-0 z-0 pointer-events-none select-none filter blur-2xl opacity-80 scale-y-110 scale-x-95">

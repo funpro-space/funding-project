@@ -169,40 +169,40 @@ export default function FAQ() {
     {
       id: "base-mainnet",
       question: "Base Mainnet",
-      answer: "Base Mainnet is the official, public production network for the Base blockchain. It uses the exact same code, rules, and smart contract logic as the test network, but it runs on real tokens and represents a live environment."
+      answer: "BThink of Base as a fast, modern digital highway built by Coinbase. It connects your transactions to the real world instantly and securely, keeping fees incredibly low. Mainnet just means the highway is officially open, live, and ready for real-world projects."
     },
     {
       id: "how-does-verification-work",
       question: "How does the on-chain verification work?",
       answer: "By connecting your wallet—such as Coinbase Smart Wallet—you can initialize automated audits. Important milestones and financial commitments are processed through our prediction engine and safely anchored on the Base Mainnet using the FunPro Registry contract."
     },
+ {
+  "id": "why-base-ecosystem",
+  "question": "Why do we use the Base network?",
+  "answer": "Base is built by Coinbase to make digital transactions lightning-fast, ultra-secure, and practically free. Because it plugs directly into standard Coinbase features and Smart Wallets, it completely removes the usual tech headaches, making it incredibly easy for anyone to use."
+},
+{
+  "id": "gemini-ai-role",
+  "question": "What does the Gemini AI engine do?",
+  "answer": "Think of the Gemini AI engine as your smart preparation partner. During your initial evaluation, it gently looks over your business setup to see how ready it is. This objective analysis helps highlight your project’s strengths and potential, making sure everything is in great shape before any commitments are made."
+},
+{
+  "id": "how-do-i-manage-my-base-account",
+  "question": "How do I manage my account?",
+  "answer": "It’s completely automatic! When you sign in with your Coinbase Smart Wallet, your secure account is created for you instantly—no passwords required. Everything is designed to give you a smooth, seamless start.",
+  "subFAQs": [
     {
-      id: "why-base-ecosystem",
-      question: "Why deploy on the Base ecosystem?",
-      answer: "Base offers lightning-fast execution, exceptionally low gas fees, and standard-setting security. It provides deep, native alignment with Coinbase products and Smart Wallets, enabling frictionless UX for developers and users navigating decentralized networks."
+      "id": "official-dashboard",
+      "question": "Where can I see my wallet settings?",
+      "answer": "You can view your security settings, recovery keys, and assets at any time by visiting the official Coinbase dashboard at https://keys.coinbase.com. This gives you total control over your wallet in one clean dashboard."
     },
     {
-      id: "gemini-ai-role",
-      question: "What role does the Gemini AI engine play?",
-      answer: "The Gemini AI engine analyzes startup business metrics during the sandbox evaluation phase, generating accurate performance predictions. This objective prediction layer acts as a decentralized underwriting assistant before any milestones or funds are committed on-chain."
-    },
-    {
-      id: "how-do-i-manage-my-base-account",
-      question: "How do I manage my Base account?",
-      answer: "Our platform is optimized for Base Mainnet and utilizes Coinbase Smart Wallet with secure passkeys. Your secure Base account is automatically created for you upon login, providing a frictionless onboarding experience.",
-      subFAQs: [
-        {
-          id: "official-dashboard",
-          question: "On Web: The Official Web Dashboard",
-          answer: "To access your account settings, passkeys, and assets via a browser, go to: https://keys.coinbase.com. This dashboard gives you full visibility and control over your Smart Wallet."
-        },
-        {
-          id: "network-switching",
-          question: "Do I need to switch networks manually?",
-          answer: "No. Since you are using a built-in Smart Wallet configured for Base Mainnet, all network routing is handled automatically by the application. You never have to deal with manual network configs or RPC settings."
-        }
-      ]
-    },
+      "id": "network-switching",
+      "question": "Do I need to change any technical network settings?",
+      "answer": "No, never. Because your Smart Wallet is already perfectly configured for the live network, our application handles all the background technical routing automatically. You’ll never have to fiddle with manual network configurations or confusing settings."
+    }
+  ]
+},
     {
       id: "what-is-onchain",
       question: "What does \"Onchain\" mean?",
@@ -246,9 +246,6 @@ export default function FAQ() {
         {/* Styled Section Header */}
         <div className="faq-header">
           <h3 className="brand-h3 faq-title">Frequently Asked Questions</h3>
-          <p className=" brand-paragraph mx-auto">
-            Find answers to common questions about our platform, on-chain metrics, and Gemini AI.
-          </p>
         </div>
 
         {/* Morphing Disclosure List */}

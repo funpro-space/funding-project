@@ -48,7 +48,7 @@ export default function OnchainStepper() {
       description: "Connect your wallet to safely sign in and get started. By registering your initial business concept, you'll check your funding qualification and get your project onto the Base Mainnet rails in a moment.",
       badge: "Base Mainnet Live",
       badgeIcon: "/media/home/icons/base-mainnet.svg",
-      featuresTitle: "Current Level 1 Feature Capability Set",
+      featuresTitle: "Level 1 Feature Capability Set",
       features: [
         { name: "Gemini Underwriting Engine", status: "Live", statusColorClass: "text-[var(--brand-success)]", isLiveStatus: true, icon: "/media/home/icons/Google_Gemini_icon_2025.svg" },
         { name: "Base Mainnet Smart Contract Registry", status: "Live", statusColorClass: "text-[var(--brand-success)]", isLiveStatus: true, icon: "/media/home/icons/base-mainnet.svg" },
@@ -382,7 +382,29 @@ export default function OnchainStepper() {
                 <div>
                   {/* Capability Heading Header */}
                   <div data-tabs-fade className="flex items-center gap-2 mb-4 border-b border-[var(--brand-border)] pb-3">
-                    <span className="text-[var(--brand-moon)] text-sm">◽</span>
+                    <span className="relative flex h-4.5 w-4.5 shrink-0 items-center justify-center">
+                      <span 
+                        className="absolute inline-flex h-full w-full rounded-full opacity-70 animate-pulse"
+                        style={{ 
+                          backgroundColor: index === 0 
+                            ? 'var(--brand-success-color)' 
+                            : index === 1 
+                              ? 'var(--brand-primary)' 
+                              : 'var(--brand-moon)',
+                          filter: 'blur(5px)'
+                        }} 
+                      />
+                      <span 
+                        className="relative inline-flex rounded-full h-2 w-2"
+                        style={{ 
+                          backgroundColor: index === 0 
+                            ? 'var(--brand-success-color)' 
+                            : index === 1 
+                              ? 'var(--brand-primary)' 
+                              : 'var(--brand-moon)'
+                        }} 
+                      />
+                    </span>
                     <h5 className="font-display text-[var(--font-size-xs)] font-bold uppercase tracking-wider text-[var(--brand-text-secondary)]">
                       {step.featuresTitle}
                     </h5>

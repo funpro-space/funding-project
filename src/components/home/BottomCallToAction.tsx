@@ -19,13 +19,13 @@ export default function BottomCallToAction() {
         
         {/* 🚀 Human-First Focused Headline */}
         <h3 className="brand-h3 mb-4">
-          Ready to see if your business qualifies?
+          Ready to discover how well your project can qualifies?
         </h3>
 
         {/* 🎯 Clear, Relatable Human Copy Block */}
         <p className="brand-paragraph mb-8 mx-auto">
-          Connect your wallet to get started. Let our Gemini AI engine analyze your business readiness, 
-          check your literacy, and build a safe, milestone-driven roadmap to secure your funding.
+          Connect your wallet to take the first step. Let our Gemini AI engine analyze your business setup, explore your digital readiness, and help prepare your project for what’s next.
+          
         </p>
 
         {/* Action Button Layout */}

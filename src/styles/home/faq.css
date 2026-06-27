@@ -613,19 +613,17 @@ details[open] .rect-faq__block--right {
 
 /* SUB FAQ STYLES */
 .faq-sub-list {
-  margin-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 1rem;
 }
 
 .faq-sub-item {
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 0.5rem;
-  margin-top: 0.75rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  position: relative;
+background: #3030307d;
+    border: 1px solid #50505082;
+    border-radius: .5rem;
+    margin-top: .75rem;
+    transition: all .3s cubic-bezier(.4, 0, .2, 1);
+    position: relative;
+    overflow: hidden;
 }
 
 .faq-sub-item:hover {

@@ -167,7 +167,7 @@ export default function HomeLayout({
 
             {/* Bottom Line: Smaller, Darker Copyright Text */}
             <div className=" text-[var(--brand-text-muted)] tracking-wider uppercase font-mono mt-5 text-sm">
-              © 2026 funpro.space. All rights reserved. Built for the Base ecosystem.
+              © 2026 funpro.space. All rights reserved.
             </div>
 
           </div>

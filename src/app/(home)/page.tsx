@@ -7,6 +7,7 @@ import OnchainStepper from '@/components/home/OnchainStepper';
 import MarketingHero from '@/components/home/HomeHero';
 import BottomCallToAction from '@/components/home/BottomCallToAction';
 import FAQ from '@/components/home/FAQ';
+import Mission from '@/components/home/Mission';
 import FloatingUSDC from '@/components/home/FloatingUSDC';
 import { useAnimation } from '@/components/providers/AnimationEngine';
 import { usePrivy } from '@privy-io/react-auth';
@@ -91,6 +92,9 @@ export default function HomePage() {
 
       {/* FAQ SECTION */}
       <FAQ />
+
+      {/* OUR MISSION SECTION */}
+      <Mission />
 
       {/* FLOATING USDC COIN (Scroll animated) */}
       <FloatingUSDC />

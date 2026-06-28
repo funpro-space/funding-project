@@ -11,6 +11,7 @@
 @import "../styles/navbar.css";
 @import "../styles/home/stepper.css";
 @import "../styles/home/faq.css";
+@import "../styles/home/mission.css";
 @import "../styles/home/badge.css";
 @import "../styles/home/usdc.css";
 @import "../styles/checklist.css";
@@ -28,6 +29,7 @@
   --font-sans: var(--brand-font-body);
   --font-mono: var(--brand-font-mono);
   --font-orbitron: var(--brand-font-orbitron);
+  --color-nice-300: #c9e0ff;
   --color-nice-400: #8cb4f5;
   --color-nice-500: #669ae1;
   --color-nice-600: #4a7bbd;

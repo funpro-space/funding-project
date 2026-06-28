@@ -6,13 +6,33 @@ import { OnchainProvider } from "@/components/providers/OnchainProvider";
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Funding Project Onchain',
-  description: 'AI Project Sandbox and Financial Tranches',
+  title: 'Fun Pro | Project Development & Funding',
+  description: 'Making project development and sustainable funding accessible and efficient on Base.',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon.svg', type: 'image/svg+xml' }
     ]
+  },
+  openGraph: {
+    title: 'Fun Pro | Project Development & Funding',
+    description: 'Making project development and sustainable funding accessible and efficient on Base.',
+    url: 'https://funpro.space',
+    type: 'website',
+    images: [
+      {
+        url: 'https://funpro.space/app-screenshot.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Fun Pro App Screenshot',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fun Pro | Project Development & Funding',
+    description: 'Making project development and sustainable funding accessible and efficient on Base.',
+    images: ['https://funpro.space/app-screenshot.webp'],
   },
   other: {
     'base:app_id': '6a3e896b18b12c552e1c5232',

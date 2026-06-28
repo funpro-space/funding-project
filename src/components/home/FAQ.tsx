@@ -197,7 +197,7 @@ export default function FAQ() {
     {
       id: "base-mainnet",
       question: "Base Mainnet",
-      answer: "BThink of Base as a fast, modern digital highway built by Coinbase. It connects your transactions to the real world instantly and securely, keeping fees incredibly low. Mainnet just means the highway is officially open, live, and ready for real-world projects."
+      answer: "Think of Base as a fast, modern digital highway built by Coinbase. It connects your transactions to the real world instantly and securely, keeping fees incredibly low. Mainnet just means the highway is officially open, live, and ready for real-world projects."
     },
     {
       id: "how-does-verification-work",

@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import WarningIcon from '@/components/WarningIcon';
-import railsDivider from '../../../public/media/home/rails.avif';
+const railsDivider = '/media/home/rails.avif';
 
 export default function MarketingHero() {
   return (
@@ -68,6 +68,8 @@ We connect Web3 and the real-world economy. Through specialized tools and milest
             className="w-full h-full object-cover" 
             priority
             unoptimized
+            width={1920}
+            height={3}
           />
         </div>
 
@@ -79,6 +81,8 @@ We connect Web3 and the real-world economy. Through specialized tools and milest
           style={{ maxHeight: 3 }}
           priority
           unoptimized
+          width={1920}
+          height={3}
         />
       </div>
     </>

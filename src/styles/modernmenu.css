@@ -203,12 +203,16 @@
 .modern-menu-item {
   position: absolute;
   transition: all 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 16px;
   opacity: 0;
   pointer-events: none;
   z-index: 999999;
   white-space: nowrap;
+  width: fit-content;
   left: 50%;
   transform: translate3d(-50%, 0, 0);
+  background: black;
+  z-index: 999999;
 }
 
 .modern-menu-container[data-state="open"] .modern-menu-item,

@@ -258,7 +258,108 @@
   border-top-color: var(--theme-foreground, #ffffff) !important;
 }
 
-.modal-loader-overlay {
-  background-color: rgba(17, 17, 17, 0.6) !important;
-  backdrop-filter: blur(4px) !important;
+/* Added base classes for Modal.tsx */
+
+.modal-overlay-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.modal-content-overlay-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+  pointer-events: none;
+}
+
+.modal-dialog-card {
+  position: relative;
+  z-index: 10000;
+  width: 100%;
+  background-color: var(--background, #09090b);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--brand-radius-lg, 12px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+/* Round Close Button */
+.modal-round-close-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  width: 2.75rem; /* size-11 */
+  height: 2.75rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--theme-foreground, #ffffff);
+  cursor: pointer;
+}
+
+.modal-round-close-icon-container {
+  position: relative;
+  width: 1.5rem; /* size-6 */
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.modal-round-close-icon-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-round-close-line {
+  width: 1.5rem; /* w-6 */
+  height: 2.8px;
+  background-color: currentColor;
+  border-radius: 9999px;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal-round-close-line-1 {
+  transform: rotate(45deg);
+}
+
+.modal-round-close-line-2 {
+  transform: rotate(-45deg);
+}
+
+/* Hover state transitions */
+.modal-round-close-btn:hover .modal-round-close-line {
+  background-color: var(--theme-foreground, #ffffff);
+}
+
+.modal-round-close-btn:hover .modal-round-close-line-1 {
+  transform: rotate(0deg);
+  width: 5px;
+  height: 5px;
+}
+
+.modal-round-close-btn:hover .modal-round-close-line-2 {
+  transform: rotate(0deg);
+  width: 5px;
+  height: 5px;
 }

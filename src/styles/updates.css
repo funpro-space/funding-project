@@ -1,0 +1,200 @@
+/* src/styles/updates.css */
+
+/* Custom Project Updates Modal Content */
+.project-updates-modal-content {
+  background-color: #090d16 !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(154, 199, 255, 0.18) !important; /* Premium visible light blue border */
+  border-radius: var(--brand-radius-xl, 12px) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 24px rgba(154, 199, 255, 0.08) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: 85vh !important;
+  position: relative !important;
+}
+
+/* Linear Gradient Border Accent using ::before & ::after on Modal Content */
+.project-updates-modal-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand-primary, #9ac7ff) 50%, transparent);
+  z-index: 100;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.project-updates-modal-content::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(154, 199, 255, 0.25) 50%, transparent);
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Updates List Container */
+.project-updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Card Styling for individual updates - replacing zinc-900/30 */
+.project-update-card {
+  position: relative;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.884); /* Premium slate-blue with transparency for dark mode contrast */
+  border: 1px solid rgba(154, 199, 255, 0.15); /* More visible border */
+  border-radius: var(--brand-radius-lg, 12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Beautiful accent gradient inside cards using before & after */
+.project-update-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(154, 199, 255, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.project-update-card::before {
+  opacity: 1;
+}
+
+/* Nice accent linear gradient bar on  using after */
+.project-update-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--brand-primary, #9ac7ff) 0%, rgba(154, 199, 255, 0.1) 100%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-update-card::after {
+  opacity: 1;
+}
+
+.project-update-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 3;
+}
+
+.project-update-date {
+  font-size: var(--font-size-3, 12px);
+  font-style: italic;
+  font-family: var(--brand-font-mono), monospace;
+  color: var(--brand-primary, #9ac7ff);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.project-update-id {
+  font-size: var(--font-size-3, 12px);
+  font-family: var(--brand-font-mono), monospace;
+  color: var(--brand-text-muted, #64748b);
+}
+
+.project-update-title {
+  font-weight: 700;
+  font-size: var(--font-size-6);
+   color: var(--brand-text-secondary, #cbd5e1);
+
+  font-family: var(--brand-font-orbitron), sans-serif;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 3;
+}
+
+.project-update-content {
+  font-size: var(--font-size-5);
+   color: var(--brand-text-primary, #f8fafc);
+  line-height: 1.6;
+  position: relative;
+  z-index: 3;
+}
+
+/* Loading state, errors, and empty states */
+.project-updates-loading {
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.project-updates-loading-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--brand-primary, #9ac7ff);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: modal-spin 1s linear infinite;
+}
+
+.project-updates-loading-text {
+  font-size: var(--font-size-2, 11px);
+  color: var(--brand-text-dim, #94a3b8);
+  font-family: var(--brand-font-mono), monospace;
+}
+
+.project-updates-error {
+  padding: 3rem 1.5rem;
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid var(--brand-danger-border, rgba(239, 68, 68, 0.35));
+  border-radius: var(--brand-radius-lg, 12px);
+  text-align: center;
+}
+
+.project-updates-error-title {
+  font-size: var(--font-size-3, 12px);
+  color: var(--brand-danger-color, #f87171);
+  font-family: var(--brand-font-mono), monospace;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.project-updates-error-message {
+  font-size: var(--font-size-3, 12px);
+  color: var(--brand-text-secondary, #cbd5e1);
+}
+
+.project-updates-empty {
+  padding: 4rem 1rem;
+  background: rgba(22, 32, 53, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--brand-radius-lg, 12px);
+  text-align: center;
+  color: var(--brand-text-muted, #64748b);
+  font-family: var(--brand-font-mono), monospace;
+  font-size: var(--font-size-3, 12px);
+}

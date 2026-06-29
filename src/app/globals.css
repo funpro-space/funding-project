@@ -3,6 +3,7 @@
 @import "../styles/modernmenu.css";
 @import "../styles/modal.css";
 @import "../styles/workspace.css";
+@import "../styles/updates.css";
 @import "../styles/buttons.css";
 @import "../styles/button-regular.css";
 @import "../styles/button-regular2.css";
@@ -14,6 +15,7 @@
 @import "../styles/home/mission.css";
 @import "../styles/home/badge.css";
 @import "../styles/home/usdc.css";
+@import "../styles/home/chat-button.css";
 @import "../styles/checklist.css";
 @import "../styles/button-loader.css";
 @import "../styles/loader.css";

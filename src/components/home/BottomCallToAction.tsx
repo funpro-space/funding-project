@@ -2,13 +2,12 @@
 
 import React from 'react';
 import { ButtonRegular } from "@/components/ButtonRegular";
-import { useWorkspaceModal } from "@/components/providers/WorkspaceModalProvider";
-import { usePrivy } from '@privy-io/react-auth';
 
-export default function BottomCallToAction() {
-  const { openWorkspace } = useWorkspaceModal();
-  const { login, authenticated: isConnected } = usePrivy();
+interface BottomCallToActionProps {
+  onOpenSandbox?: () => void;
+}
 
+export default function BottomCallToAction({ onOpenSandbox }: BottomCallToActionProps) {
   return (
     <section className="w-full max-w-5xl mx-auto px-4 py-5 md:py-12 text-center relative z-10">
       
@@ -19,7 +18,7 @@ export default function BottomCallToAction() {
         
         {/* 🚀 Human-First Focused Headline */}
         <h3 className="brand-h3 mb-4">
-          Ready to discover how well your project can qualifies?
+          Ready to discover how well your project qualifies?
         </h3>
 
         {/* 🎯 Clear, Relatable Human Copy Block */}
@@ -29,26 +28,19 @@ export default function BottomCallToAction() {
         </p>
 
         {/* Action Button Layout */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-sm mx-auto">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
           
-          {/* Primary Action Button (Typo Fixed) */}
-          {!isConnected ? (
-            <ButtonRegular 
-              onClick={login} 
-              variant="accent"
+          {onOpenSandbox && (
+            <ButtonRegular
+              onClick={onOpenSandbox}
+              variant="default"
               className="w-full sm:w-auto text-center font-medium cursor-pointer"
             >
-              Connect Wallet
-            </ButtonRegular>
-          ) : (
-            <ButtonRegular 
-              onClick={openWorkspace} 
-              variant="accent"
-              className="w-full sm:w-auto text-center font-medium cursor-pointer"
-            >
-              Launch Business Evaluation
+              Launch Free Evaluation Sandbox
             </ButtonRegular>
           )}
+
+         
 
         </div>
 

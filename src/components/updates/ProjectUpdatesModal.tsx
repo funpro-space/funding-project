@@ -14,7 +14,7 @@ export default function ProjectUpdatesModal() {
         size="default"
         padding="none"
         showCloseButton={false}
-        className="level2-modal-content workspace-modal-content border border-zinc-800 bg-[#090d16]/95 backdrop-blur-md rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
+        className="project-updates-modal-content"
       >
         <ProjectUpdatesView onClose={closeUpdates} />
       </ModalContent>

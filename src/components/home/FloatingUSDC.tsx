@@ -48,7 +48,7 @@ export default function FloatingUSDC({ className = "fixed bottom-12 right-12 lg:
   return (
     <div 
       ref={containerRef}
-      className={`w-[40] h-[40] lg:w-[80px] lg:h-[80px] pointer-events-none hidden lg:block select-none z-40 ${className}`}
+      className={`w-[40] h-[40] lg:w-[80px] lg:h-[80px] pointer-events-none hidden lg:block select-none z-100 ${className}`}
     >
       <div className="relative w-full h-full animate-float-coin">
         {/* 💙 Soft Blue Blur Backdrop Ring (Mirrors Screenshot_160 2.png tone) */}

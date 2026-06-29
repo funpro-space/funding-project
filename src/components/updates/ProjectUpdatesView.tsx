@@ -55,10 +55,6 @@ export default function ProjectUpdatesView({ onClose }: ProjectUpdatesViewProps)
         <div className="workspace-header-content flex !flex-row items-center justify-between w-full">
           <div>
             <h3 className="workspace-header-title text-base sm:text-lg uppercase tracking-wider text-[var(--brand-primary)] flex items-center gap-2 m-0">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--brand-primary)] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--brand-primary)]"></span>
-              </span>
               Project Updates
             </h3>
             
@@ -90,41 +86,41 @@ export default function ProjectUpdatesView({ onClose }: ProjectUpdatesViewProps)
       {/* Scrollable Body */}
       <div className="workspace-body custom-scrollbar flex-1 pb-6">
         {isLoading && updates.length === 0 ? (
-          <div className="py-16 flex flex-col items-center justify-center gap-3">
-            <div className="w-6 h-6 border-2 border-[var(--brand-primary)] border-t-transparent rounded-full animate-spin" />
-            <span className="text-xs text-zinc-500 font-mono">Loading updates...</span>
+          <div className="project-updates-loading">
+            <div className="project-updates-loading-spinner" />
+            <span className="project-updates-loading-text">Loading updates...</span>
           </div>
         ) : fetchError ? (
-          <div className="py-12 px-6 bg-red-950/20 border border-red-900/30 rounded-xl text-center">
-            <span className="text-xs text-red-400 font-mono block mb-2">⚠ Error</span>
-            <p className="text-xs text-zinc-400">{fetchError}</p>
+          <div className="project-updates-error">
+            <span className="project-updates-error-title">⚠ Error</span>
+            <p className="project-updates-error-message">{fetchError}</p>
             <ButtonRegular onClick={fetchUpdates} variant="default" className="mt-4 px-4 py-1.5 text-[10px] uppercase font-bold tracking-wider">
               Try Again
             </ButtonRegular>
           </div>
         ) : updates.length === 0 ? (
-          <div className="py-16 bg-zinc-900/20 border border-zinc-800/60 rounded-xl text-center text-zinc-500 font-mono text-xs">
+          <div className="project-updates-empty">
             No updates yet.
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="project-updates-list">
             {updates.map((update, index) => (
               <div
                 key={update.id || index}
-                className="p-4 bg-zinc-900/30 border border-zinc-800/50 hover:border-zinc-700/40 rounded-xl transition-all relative overflow-hidden"
+                className="project-update-card"
               >
-                <div className="flex items-center justify-between gap-4 mb-2">
-                  <span className="text-[12px] italic font-mono text-[var(--brand-primary)] uppercase tracking-widest ">
+                <div className="project-update-card-header">
+                  <span className="project-update-date">
                     {update.date}
                   </span>
-                  <span className="text-[12px] font-mono text-zinc-500">
+                  <span className="project-update-id">
                      #{update.id}
                   </span>
                 </div>
-                <h4 className="font-bold text-lg text-zinc-100 font-mono mb-2">
+                <h4 className="project-update-title">
                   {update.title}
                 </h4>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="project-update-content">
                   {update.content}
                 </p>
               </div>

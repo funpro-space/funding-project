@@ -5,7 +5,6 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { Flip } from 'gsap/Flip';
-import { useWorkspaceModal } from '@/components/providers/WorkspaceModalProvider';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(Flip);
@@ -26,13 +25,11 @@ interface Step {
   badgeIcon?: string;
   featuresTitle: string;
   features: FeatureItem[];
-  actionText: string;
 }
 
 export default function OnchainStepper() {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [prevStep, setPrevStep] = useState<number>(0);
-  const { openWorkspace } = useWorkspaceModal();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const tabsRowRef = useRef<HTMLDivElement>(null);
@@ -44,8 +41,8 @@ export default function OnchainStepper() {
 
   const steps: Step[] = [
     {
-      title: "Founder Profile",
-      description: "Connect your wallet to safely sign in and get started. By registering your initial business concept, you'll check your funding qualification and get your project onto the Base Mainnet rails in a moment.",
+      title: "Project Analysis",
+      description: "The feature enabling founders to discover new possibilities that are inside of the process.",
       badge: "Base Mainnet Live",
       badgeIcon: "/media/home/icons/base-mainnet.svg",
       featuresTitle: "Level 1 Feature Capability Set",
@@ -53,41 +50,37 @@ export default function OnchainStepper() {
         { name: "Gemini Underwriting Engine", status: "Live", statusColorClass: "text-[var(--brand-success)]", isLiveStatus: true, icon: "/media/home/icons/Google_Gemini_icon_2025.svg" },
         { name: "Base Mainnet Smart Contract Registry", status: "Live", statusColorClass: "text-[var(--brand-success)]", isLiveStatus: true, icon: "/media/home/icons/base-mainnet.svg" },
         { name: "Business Readiness", status: "Live", statusColorClass: "text-[var(--brand-success)]", isLiveStatus: true }
-      ],
-      actionText: "Test the Live Registration Space Now"
+      ]
     },
     {
       title: "Project Workspace",
-      description: "Once your initial intent is anchored on-chain, get immediate access to your private, encrypted document workspace to draft pitch logs and deep-dive strategy notes.",
+      description: "A tool for possibilities and a workstation for your curiosity—flexible, open, and built to help us prepare for the launch.",
       badge: "Module Ready",
       featuresTitle: "Level 2 Internal System Dependencies",
       features: [
-        { name: "Split-Screen Note Canvas UX", status: "Live", statusColorClass: "text-[var(--brand-success)]", isLiveStatus: true },
+        { name: "Split-Screen Note Canvas Web App", status: "Live", statusColorClass: "text-[var(--brand-success)]", isLiveStatus: true },
         { name: "Ecosystem Portal Account Bridging", status: "Staging Integration", statusColorClass: "text-[var(--brand-primary)]" }
-      ],
-      actionText: "Preview Sandbox Workspace UI"
+      ]
     },
     {
       title: "Expense and Revenue ",
-      description: "Build out dynamic, itemized monthly expense charts in parallel with your text strategy to map precise runway requirements before any money moves.",
+      description: "This is why some founders succeed—they know their numbers. A world-class system that lets you stay ahead of the game.",
       badge: "Module Ready",
       featuresTitle: "Level 3 Core Architecture Assets",
       features: [
-        { name: "Relational Ledger Database Sync", status: "Staging Integration", statusColorClass: "text-[var(--brand-primary)]" },
+        { name: "Financial Institution Integration", status: "Live", statusColorClass: "text-[var(--brand-primary)]" },
         { name: "Dynamic Burn-Rate Burner Engine", status: "Level 2 Pipeline", statusColorClass: "text-[var(--brand-text-dim)]" }
-      ],
-      actionText: "Review Financial Architecture Schemes"
+      ]
     },
     {
       title: "Advisory Review & Milestone Lock",
-      description: "Collaborate closely with our system curators to review your compiled plan, fine-tune the final numbers, and formalize capital tranches into milestone smart escrows.",
+      description: "Connecting founders to share support, build momentum, and unlock new possibilities.",
       badge: "Module Ready",
       featuresTitle: "Level 4 Settlement Rules Engine",
       features: [
         { name: "Gasless USDC Minting Contract", status: "Level 2 Pipeline", statusColorClass: "text-[var(--brand-text-dim)]" },
         { name: "Multi-Signature Milestone Escrow Protocol", status: "Level 2 Pipeline", statusColorClass: "text-[var(--brand-text-dim)]" }
-      ],
-      actionText: "Inspect Escrow Contract Blueprints"
+      ]
     }
   ];
 
@@ -292,9 +285,35 @@ export default function OnchainStepper() {
                   backgroundImage: 'radial-gradient(at 95% 89%, rgba(102, 154, 225, 0.06) 0px, transparent 50%), radial-gradient(at 0% 100%, rgba(255, 255, 255, 0.01) 0px, transparent 50%)'
                 }}
               >
-                <svg className="w-5 h-5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M 9 7.5 L 4 12 L 9 16.5" />
-                  <line x1="4" y1="12" x2="20" y2="12" className="origin-left transition-transform duration-300 ease-out group-hover:scale-x-[1.18]" style={{ transformOrigin: "left" }} />
+                <svg 
+                  className="w-5 h-5 fill-current" 
+                  viewBox="0 0 100 100" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {/* Apex Block */}
+                  <rect
+                    x="12"
+                    y="42"
+                    width="16"
+                    height="16"
+                    className="transition-all duration-300 ease-out group-hover:-translate-x-1"
+                  />
+                  {/* Top Wing Block */}
+                  <rect
+                    x="32"
+                    y="22"
+                    width="16"
+                    height="16"
+                    className="transition-all duration-300 ease-out group-hover:translate-x-0.5"
+                  />
+                  {/* Bottom Wing Block */}
+                  <rect
+                    x="32"
+                    y="62"
+                    width="16"
+                    height="16"
+                    className="transition-all duration-300 ease-out group-hover:translate-x-0.5"
+                  />
                 </svg>
               </span>
             </button>
@@ -311,9 +330,35 @@ export default function OnchainStepper() {
                   backgroundImage: 'radial-gradient(at 95% 89%, rgba(102, 154, 225, 0.06) 0px, transparent 50%), radial-gradient(at 0% 100%, rgba(255, 255, 255, 0.01) 0px, transparent 50%)'
                 }}
               >
-                <svg className="w-5 h-5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M 15 7.5 L 20 12 L 15 16.5" />
-                  <line x1="4" y1="12" x2="20" y2="12" className="origin-right transition-transform duration-300 ease-out group-hover:scale-x-[1.18]" style={{ transformOrigin: "right" }} />
+                <svg 
+                  className="w-5 h-5 fill-current" 
+                  viewBox="0 0 100 100" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {/* Apex Block */}
+                  <rect
+                    x="72"
+                    y="42"
+                    width="16"
+                    height="16"
+                    className="transition-all duration-300 ease-out group-hover:translate-x-1"
+                  />
+                  {/* Top Wing Block */}
+                  <rect
+                    x="52"
+                    y="22"
+                    width="16"
+                    height="16"
+                    className="transition-all duration-300 ease-out group-hover:-translate-x-0.5"
+                  />
+                  {/* Bottom Wing Block */}
+                  <rect
+                    x="52"
+                    y="62"
+                    width="16"
+                    height="16"
+                    className="transition-all duration-300 ease-out group-hover:-translate-x-0.5"
+                  />
                 </svg>
               </span>
             </button>
@@ -445,21 +490,6 @@ export default function OnchainStepper() {
                   </div>
                 </div>
 
-                {/* Action Trigger Box Anchor */}
-                <div data-tabs-fade className="mt-6 pt-4 border-t border-[var(--brand-border)]">
-                  {index === 0 ? (
-                    <button
-                      onClick={openWorkspace}
-                      className="w-full text-center block py-2.5 px-4 rounded-[var(--brand-radius-sm)] font-display text-[var(--font-size-xs)] font-bold tracking-wide transition-all bg-[var(--brand-primary)] text-black shadow-[var(--shadow-btn-primary)] hover:bg-[var(--brand-primary-hover)] active:bg-[var(--brand-primary-active)] cursor-pointer"
-                    >
-                      {step.actionText} →
-                    </button>
-                  ) : (
-                    <button className="w-full text-center py-2.5 px-4 rounded-[var(--brand-radius-sm)] font-display text-[var(--font-size-xs)] font-bold tracking-wide transition-all bg-[var(--brand-surface-light)] text-[var(--brand-text-secondary)] border border-[var(--brand-border)] cursor-not-allowed">
-                      {step.actionText} →
-                    </button>
-                  )}
-                </div>
               </div>
             );
           })}

@@ -11,6 +11,8 @@ interface RegistrationStatusProps {
   handleSaveProfile: (e: React.FormEvent) => void;
   setShowSuccessModal: (show: boolean) => void;
   customSuggestion?: string;
+  isConnected?: boolean;
+  onConnect?: () => void;
 }
 
 export default function RegistrationStatus({
@@ -18,7 +20,9 @@ export default function RegistrationStatus({
   completeSuccess,
   handleSaveProfile,
   setShowSuccessModal,
-  customSuggestion
+  customSuggestion,
+  isConnected = true,
+  onConnect
 }: RegistrationStatusProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -80,7 +84,28 @@ export default function RegistrationStatus({
 
       <div className="workspace-reveal-content" onClick={(e) => e.stopPropagation()}>
         <div className="workspace-slider-group">
-          {!allVectorsSufficient ? (
+          {!isConnected ? (
+            <div className="workspace-form-success">
+              <div className="workspace-success-banner">
+                <h5 className="workspace-success-title">
+                  🎉 Workspace Evaluation Complete!
+                </h5>
+                <p className="workspace-success-text">
+                  Connect your wallet to securely save your research dashboards, unlock level 2 features, and activate on-chain milestone tracking.
+                </p>
+              </div>
+              <div className="workspace-verification-buttons">
+                <ButtonRegular
+                  type="button"
+                  onClick={onConnect}
+                  variant="accent"
+                  className="workspace-registration-action-btn"
+                >
+                  Connect Wallet to Save Profile
+                </ButtonRegular>
+              </div>
+            </div>
+          ) : !allVectorsSufficient ? (
             <div className="workspace-alert-incomplete">
               <h5 className="workspace-alert-title">
                 ⚠️ Profile Incomplete — Additional Details Required

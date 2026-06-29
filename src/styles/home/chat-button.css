@@ -1,0 +1,104 @@
+/* src/styles/home/chat-button.css */
+
+.chat-drawer-wrapper {
+  position: fixed;
+  bottom: 1.5rem; /* bottom-6 */
+  right: 1.5rem; /* right-6 */
+  z-index: 1000; /* z-[1000] */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  pointer-events: none; /* Let clicks pass through container to trigger if clicking outside but near */
+}
+
+.chat-drawer-trigger {
+  position: relative;
+  padding: 1rem; /* p-4 */
+  border-radius: 9999px; /* rounded-full */
+  background-color: rgba(9, 9, 11, 0.45); /* Transparent black base */
+  backdrop-filter: blur(8px); /* Frosted glass effect */
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  border: 1px solid rgba(154, 199, 255, 0.25); /* Subtle brand border */
+  color: var(--brand-primary); /* text-[var(--brand-primary)] */
+  box-shadow: 0 0 25px rgba(102, 154, 225, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* transition-all duration-300 */
+  display: flex; /* flex */
+  align-items: center; /* items-center */
+  justify-content: center; /* justify-center */
+  cursor: pointer; /* cursor-pointer */
+  outline: none;
+  overflow: visible;
+  pointer-events: auto; /* Re-enable pointer events for the button itself */
+}
+
+.chat-drawer-trigger:hover {
+  background-color: rgba(24, 24, 27, 0.6); /* Slightly darker/more opaque on hover */
+  border-color: rgba(154, 199, 255, 0.4);
+  box-shadow: 0 0 35px rgba(102, 154, 225, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.chat-sparkles-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+  z-index: -1; /* Below the button's children but relative to wrapper */
+}
+
+/* Sparkle elements styling */
+.chat-button-sparkle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: calc(var(--width) * 1.5px);
+  aspect-ratio: 1;
+      background-color: rgb(9 9 11 / 39%); /* Nice Light Blue */
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  rotate: calc(1deg * var(--deg));
+  transform: translate(-50%, -50%);
+  /* Slower speed and staggered negative delays for premium, non-busy feel */
+  animation: chat-sparkle-active calc(150s / var(--duration)) linear calc(-150s / var(--duration)) infinite;
+  pointer-events: none;
+}
+
+/* On hover, boost sparkle effect slightly */
+.chat-drawer-wrapper:hover .chat-button-sparkle,
+.chat-inline-card:hover .chat-button-sparkle {
+  animation-name: chat-sparkle-hover;
+  background-color: #ffffff; /* Sparkle white on hover */
+  width: calc(var(--width) * 2px); /* Scale up on hover */
+  filter: drop-shadow(0 0 3px var(--brand-primary));
+}
+
+@keyframes chat-sparkle-active {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 0.6; /* Soft, subtle background glow */
+  }
+  85% {
+    opacity: 0.45;
+  }
+  100% {
+    width: calc(var(--width) * 1px);
+    transform: translate(5000%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes chat-sparkle-hover {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 0.8;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    width: calc(var(--width) * 1.2px);
+    transform: translate(6500%, -50%);
+    opacity: 0;
+  }
+}

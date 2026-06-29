@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
 import { ButtonRegular } from "@/components/ButtonRegular";
@@ -22,10 +22,13 @@ import StoryAssessment from "./C_StoryAssessment";
 import ExperienceProfile from "./C_ExperienceProfile";
 import ValidationMetrics from "./C_ValidationMetrics";
 import EcoGuidelines from "./C_EcoGuidelines";
+import TrainingGuidelines from "./C_TrainingGuidelines";
 import RegistrationStatus from "./C_RegistrationStatus";
 import VibeGuideModal from "./C_VibeGuideModal";
 import NarrativePolishModal from "./C_NarrativePolishModal";
 import Loader from "@/components/Loader";
+
+import { useWorkspaceModal } from "@/components/providers/WorkspaceModalProvider";
 
 interface VectorSection {
   extractedText: string;
@@ -69,6 +72,7 @@ interface EvaluationResult {
 
 interface WorkspaceViewProps {
   onClose?: () => void;
+  onMessageSubmitted?: (message: string) => void;
 }
 
 export interface AiPromptItem {
@@ -95,9 +99,11 @@ const availablePrompts: AiPromptItem[] = [
   }
 ];
 
-export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
+export default function WorkspaceView({ onClose, onMessageSubmitted }: WorkspaceViewProps) {
   const { login, authenticated: isConnected, user } = usePrivy();
   const address = user?.wallet?.address;
+
+  const { initialNarrative, setInitialNarrative } = useWorkspaceModal();
 
   const [rawNarrative, setRawNarrative] = useState("");
   const [lastEvaluatedText, setLastEvaluatedText] = useState("");
@@ -123,23 +129,35 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
   const [isPolishing, setIsPolishing] = useState(false);
   const [polishStartTime, setPolishStartTime] = useState(0);
 
-  const remainingChats = Math.max(0, 10 - chatCount);
-  const isOutOfChats = chatCount >= 10;
+  const [guestUsed, setGuestUsed] = useState(false);
+
+  useEffect(() => {
+    const checkLimit = async () => {
+      try {
+        const url = address 
+          ? `/api/check-guest-limit?address=${encodeURIComponent(address)}` 
+          : "/api/check-guest-limit";
+        const res = await fetch(url);
+        const data = await res.json();
+        setGuestUsed(!!data.limited);
+      } catch (err) {
+        console.error("[WorkspaceView] Failed to check guest rate limit:", err);
+      }
+    };
+    checkLimit();
+  }, [address]);
+
+  const maxChats = isConnected ? 100 : 1;
+  const remainingChats = isConnected ? Math.max(0, 100 - chatCount) : (guestUsed ? 0 : 1);
+  const isOutOfChats = isConnected ? (chatCount >= 100) : guestUsed;
 
   const [yearsOfExperience, setYearsOfExperience] = useState<number>(0);
   const [masteryTier, setMasteryTier] = useState<"Apprentice" | "Professional" | "Master" | "Unknown">("Unknown");
 
-  const [checkedPillars, setCheckedPillars] = useState({
-    creation: false,
-    sourcing: false,
-    sustainability: false,
-    community: false,
-  });
-
   const [isEvaluatorOpen, setIsEvaluatorOpen] = useState(false);
   const [showVibeGuide, setShowVibeGuide] = useState(false);
 
-  const isUnlocked = !!result || Object.values(checkedPillars).every(Boolean);
+  const isUnlocked = true;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -220,22 +238,19 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
     return () => { active = false; };
   }, [isConnected, address]);
 
-  const handleEvaluateChat = async (textToEvaluate?: string) => {
+  const handleEvaluateChat = useCallback(async (textToEvaluate?: string) => {
     const text = textToEvaluate !== undefined ? textToEvaluate : rawNarrative;
     if (!text.trim()) {
       toast.error("Please enter your project's story first.");
       return;
     }
 
-    // Check if the narrative matches one of the example templates exactly (meaning they didn't change it)
-    const isExample = availablePrompts.some(p => p.value.trim() === text.trim());
-    if (isExample) {
-      toast.warning("Please customize the example narrative with your own project details before submitting.");
-      return;
-    }
-
     if (isOutOfChats) {
-      toast.error("You have reached your limit of 10 narrative evaluations.");
+      if (!isConnected) {
+        toast.error("Free guest limit reached. Please connect your wallet to get 10 evaluations.");
+      } else {
+        toast.error("You have reached your limit of 10 narrative evaluations.");
+      }
       return;
     }
 
@@ -260,6 +275,10 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
         throw new Error(data.error || `Workspace narrative assessment service failed (HTTP ${response.status})`);
       }
       
+      if (!address) {
+        setGuestUsed(true);
+      }
+
       if (data.chatCount !== undefined) {
         setChatCount(data.chatCount);
       }
@@ -282,17 +301,12 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [rawNarrative, isOutOfChats, address, isConnected]);
 
-  const handlePreFlightSubmit = async () => {
-    if (!rawNarrative.trim()) {
+  const handlePreFlightSubmit = useCallback(async (textToPolish?: string) => {
+    const text = textToPolish !== undefined ? textToPolish : rawNarrative;
+    if (!text.trim()) {
       toast.error("Please enter your project's story first.");
-      return;
-    }
-
-    const isExample = availablePrompts.some(p => p.value.trim() === rawNarrative.trim());
-    if (isExample) {
-      toast.warning("Please customize the example narrative with your own project details before submitting.");
       return;
     }
 
@@ -312,7 +326,7 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
       const response = await fetch("/api/workspace-ai-polish", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ rawNarrative, address }),
+        body: JSON.stringify({ rawNarrative: text, address }),
       });
       
       const data = await response.json();
@@ -336,11 +350,27 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
       console.error("Narrative polish failed:", error);
       toast.error("AI pre-flight optimization failed. Continuing with original draft.");
       setIsPolishModalOpen(false);
-      await handleEvaluateChat(rawNarrative);
+      if (onMessageSubmitted) {
+        onMessageSubmitted(text);
+      } else {
+        await handleEvaluateChat(text);
+      }
     } finally {
       setIsPolishing(false);
     }
-  };
+  }, [rawNarrative, isOutOfChats, address, onMessageSubmitted, handleEvaluateChat]);
+
+  useEffect(() => {
+    if (initialNarrative) {
+      console.log("[WorkspaceView] Found initialNarrative in context. Setting and polishing:", initialNarrative);
+      const timer = setTimeout(() => {
+        setRawNarrative(initialNarrative);
+        setInitialNarrative(""); // Clear context to avoid loop
+        handlePreFlightSubmit(initialNarrative);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [initialNarrative, setInitialNarrative, handlePreFlightSubmit]);
 
   const allVectorsSufficient = result
     ? result.analysis.operationalStrategy.sufficient &&
@@ -390,27 +420,7 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
     }
   };
 
-  if (!isConnected) {
-    return (
-      <div className="workspace-connect-view">
-        <div className="workspace-connect-card">
-          <h3 className="brand-h3">Connect Wallet to Access Workspace</h3>
-          <p className="brand-paragraph text-center">
-            Connect your wallet to enter your personalized workspace. This securely sets up your developer profile.
-          </p>
-          <div className="flex justify-center pt-2">
-            <ButtonRegular
-              onClick={login}
-              variant="accent"
-              className="uppercase tracking-wider w-64 h-12"
-            >
-              Connect Wallet
-            </ButtonRegular>
-          </div>
-        </div>
-      </div>
-    );
-  }
+
 
   if (isInitialLoading) {
     return (
@@ -570,112 +580,41 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
               
               <div className="workspace-reveal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="workspace-guidelines-checklist mb-6">
-                  <h4 className="workspace-checklist-title">
-                    ✦ Checklist: Core Project Features
-                  </h4>
                   <p className="brand-paragraph text-slate-300 mb-3">
-                    To unlock the AI Evaluation Engine, confirm that your story will cover these four essential aspects of your regional project:
+                    Your project story must cover these four essential aspects:
                   </p>
                   
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-2">
                     {/* Item 1 */}
-                    <div className="checkbox-container">
-                      <input
-                        type="checkbox"
-                        id="pillar-creation"
-                        className="task-checkbox"
-                        checked={checkedPillars.creation}
-                        onChange={(e) => setCheckedPillars(prev => ({ ...prev, creation: e.target.checked }))}
-                      />
-                      <label htmlFor="pillar-creation" className="checkbox-label">
-                        <div className="checkbox-box">
-                          <div className="checkbox-fill"></div>
-                          <div className="checkmark">
-                            <svg viewBox="0 0 24 24" className="check-icon">
-                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
-                            </svg>
-                          </div>
-                          <div className="success-ripple"></div>
-                        </div>
-                        <span className="checkbox-text workspace-checklist-text">
-                          <strong>Core Creation:</strong> I will describe my real-world craft, farm, or production project.
-                        </span>
-                      </label>
+                    <div className="flex items-start gap-2.5 ">
+                      <span className="text-emerald-400 mt-1 font-bold text-md shrink-0 select-none">✓</span>
+                      <span className="text-zinc-300 text-md font-sans leading-relaxed">
+                        <strong>Project:</strong> Describe your real-world craft, farm, or production project.
+                      </span>
                     </div>
 
                     {/* Item 2 */}
-                    <div className="checkbox-container">
-                      <input
-                        type="checkbox"
-                        id="pillar-sourcing"
-                        className="task-checkbox"
-                        checked={checkedPillars.sourcing}
-                        onChange={(e) => setCheckedPillars(prev => ({ ...prev, sourcing: e.target.checked }))}
-                      />
-                      <label htmlFor="pillar-sourcing" className="checkbox-label">
-                        <div className="checkbox-box">
-                          <div className="checkbox-fill"></div>
-                          <div className="checkmark">
-                            <svg viewBox="0 0 24 24" className="check-icon">
-                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
-                            </svg>
-                          </div>
-                          <div className="success-ripple"></div>
-                        </div>
-                        <span className="checkbox-text workspace-checklist-text">
-                          <strong>Sourcing Integrity:</strong> I will specify the raw materials, tools, or ingredients I use.
-                        </span>
-                      </label>
+                    <div className="flex items-start gap-2.5  font-sans">
+                      <span className="text-emerald-400 mt-1 font-bold text-md shrink-0 select-none">✓</span>
+                      <span className="text-zinc-300 text-md font-sans leading-relaxed">
+                        <strong>Sourcing:</strong> Specify the raw materials, tools, or ingredients used.
+                      </span>
                     </div>
 
                     {/* Item 3 */}
-                    <div className="checkbox-container">
-                      <input
-                        type="checkbox"
-                        id="pillar-sustainability"
-                        className="task-checkbox"
-                        checked={checkedPillars.sustainability}
-                        onChange={(e) => setCheckedPillars(prev => ({ ...prev, sustainability: e.target.checked }))}
-                      />
-                      <label htmlFor="pillar-sustainability" className="checkbox-label">
-                        <div className="checkbox-box">
-                          <div className="checkbox-fill"></div>
-                          <div className="checkmark">
-                            <svg viewBox="0 0 24 24" className="check-icon">
-                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
-                            </svg>
-                          </div>
-                          <div className="success-ripple"></div>
-                        </div>
-                        <span className="checkbox-text workspace-checklist-text">
-                          <strong>Process Sustainability:</strong> I will explain how I handle materials and resource footprints responsibly.
-                        </span>
-                      </label>
+                    <div className="flex items-start gap-2.5 ">
+                      <span className="text-emerald-400 mt-1 font-bold text-md shrink-0 select-none">✓</span>
+                      <span className="text-zinc-300 text-md font-sans leading-relaxed">
+                        <strong>Process Sustainability:</strong> Explain how you handle materials and resource footprints responsibly.
+                      </span>
                     </div>
 
                     {/* Item 4 */}
-                    <div className="checkbox-container">
-                      <input
-                        type="checkbox"
-                        id="pillar-community"
-                        className="task-checkbox"
-                        checked={checkedPillars.community}
-                        onChange={(e) => setCheckedPillars(prev => ({ ...prev, community: e.target.checked }))}
-                      />
-                      <label htmlFor="pillar-community" className="checkbox-label">
-                        <div className="checkbox-box">
-                          <div className="checkbox-fill"></div>
-                          <div className="checkmark">
-                            <svg viewBox="0 0 24 24" className="check-icon">
-                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
-                            </svg>
-                          </div>
-                          <div className="success-ripple"></div>
-                        </div>
-                        <span className="checkbox-text workspace-checklist-text">
-                          <strong>Community Betterment:</strong> I will detail how my business actively supports our regional community.
-                        </span>
-                      </label>
+                    <div className="flex items-start gap-2.5 ">
+                      <span className="text-emerald-400 mt-1 font-bold text-md shrink-0 select-none">✓</span>
+                      <span className="text-zinc-300 text-md font-sans leading-relaxed">
+                        <strong>Community Betterment:</strong> Detail how your business actively supports your regional community.
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -688,7 +627,9 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
                   onSubmit={handlePreFlightSubmit}
                   placeholder={
                     isOutOfChats 
-                      ? "🔒 You have used all 10 of your narrative evaluations." 
+                      ? isConnected
+                        ? "🔒 You have used all 100 of your daily narrative evaluations." 
+                        : "🔒 Free guest limit reached. Connect wallet to get 100 daily evals."
                       : isUnlocked 
                         ? "Describe your real-world project..." 
                         : "🔒 Check all four guidelines above to unlock the AI narrative evaluator..."
@@ -699,6 +640,7 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
                   disabled={!isUnlocked || isOutOfChats}
                   submitDisabled={isOutOfChats || (!!lastEvaluatedText && rawNarrative.trim() === lastEvaluatedText)}
                   remainingChats={remainingChats}
+                  maxChats={maxChats}
                   maxLength={1000}
                 >
                   <div className="workspace-prompts-wrapper" data-bclick-skip="true">
@@ -817,6 +759,8 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
                 <EcoGuidelines
                   customSuggestion={result.cardSuggestions?.ecoGuidelines}
                 />
+
+                <TrainingGuidelines />
                 
                 <RegistrationStatus
                   allVectorsSufficient={allVectorsSufficient}
@@ -824,6 +768,8 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
                   handleSaveProfile={handleSaveProfile}
                   setShowSuccessModal={setShowSuccessModal}
                   customSuggestion={result.cardSuggestions?.registrationStatus}
+                  isConnected={isConnected}
+                  onConnect={login}
                 />
               </div>
             </div>
@@ -869,11 +815,19 @@ export default function WorkspaceView({ onClose }: WorkspaceViewProps) {
         onConfirm={async (editedText) => {
           setIsPolishModalOpen(false);
           setRawNarrative(editedText);
-          await handleEvaluateChat(editedText);
+          if (onMessageSubmitted) {
+            onMessageSubmitted(editedText);
+          } else {
+            await handleEvaluateChat(editedText);
+          }
         }}
         onKeepOriginal={async () => {
           setIsPolishModalOpen(false);
-          await handleEvaluateChat(rawNarrative);
+          if (onMessageSubmitted) {
+            onMessageSubmitted(rawNarrative);
+          } else {
+            await handleEvaluateChat(rawNarrative);
+          }
         }}
       />
     </div>

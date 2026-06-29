@@ -5,15 +5,27 @@ import Image from 'next/image';
 import WarningIcon from '@/components/WarningIcon';
 const railsDivider = '/media/home/rails.avif';
 
-export default function MarketingHero() {
+export interface PublicStatsType {
+  totalChats: number;
+  totalInputTokens: number;
+  totalOutputTokens: number;
+  totalTotalTokens: number;
+  totalCostUsd: number;
+}
+
+interface MarketingHeroProps {
+  onOpenSandbox?: () => void;
+}
+
+export default function MarketingHero({}: MarketingHeroProps) {
   return (
     <>
-      <section className="pt-5 md:pt-12 text-center max-w-8xl mx-auto px-4 z-10 relative">
+      <section className="pt-2 md:pt-6 text-center max-w-8xl mx-auto px-4 z-10 relative">
         
         {/* ⚡ Cleaned Pill Badge — Fully synced to your structural theme variables */}
         <div className="v-badge animate-hero opacity-0">
           <WarningIcon className="v-badge-ai-icon" />
-          <span>Active Development <span className="v-badge-detail">(Pre-release)</span></span>
+          <span>Active Development <span className="v-badge-detail">(Project Analysis Live)</span></span>
         </div>
 
         {/* 🚀 Sleek, Direct Funding Headline */}
@@ -25,8 +37,8 @@ export default function MarketingHero() {
 
 
         {/* 🎯 Nice, Simple, and Human-Readable Subtext */}
-        <p className="brand-paragraph animate-hero opacity-0 mt-4 mx-auto max-w-5xl">
-We connect Web3 and the real-world economy. Through specialized tools and milestone-based funding, we empower artists, craftspeople, farmers, and sustainable producers to build and scale their projects.        </p>
+        <p className="brand-tag animate-hero opacity-0 mx-auto max-w-5xl">
+Discover project development possibilities through a designed process  </p>
 
         
         {/* 🌐 Network and Settlement Metadata */}
@@ -58,7 +70,7 @@ We connect Web3 and the real-world economy. Through specialized tools and milest
       </section>
 
       {/* 🛤️ Rails Divider with Ambient Shadow Glow */}
-      <div className="w-full animate-hero-fade opacity-0 relative py-6 z-100"
+      <div className="w-full animate-hero-fade opacity-0 relative py-6 z-10"
       style={{ maxHeight: 1 }}>
         {/* Glow Shadow (Duplicate image placed behind) */}
         <div className="absolute inset-0 z-0 pointer-events-none select-none filter blur-2xl opacity-80 scale-y-110 scale-x-95">

@@ -163,22 +163,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* BUSINESS EVALUATION ACTION INSIDE THE LIQUID FLOATING NAV */}
-          <div className="navbar-cta-wrapper flex items-center gap-3">
+          <div className="navbar-cta-wrapper flex items-center gap-2 md:gap-3">
+            <ButtonRegular onClick={openUpdates} variant="default" className="text-xs uppercase tracking-wider font-bold">
+               Updates
+            </ButtonRegular>
             {!isConnected ? (
               <ButtonRegular onClick={login} variant="accent" className="text-xs uppercase tracking-wider font-bold">
                 Connect Wallet
               </ButtonRegular>
             ) : (
-              <>
-                <ButtonRegular onClick={openUpdates} variant="default" className="text-xs uppercase tracking-wider font-bold">
-                   Updates
+              ctaText && (
+                <ButtonRegular onClick={openWorkspace} variant="accent" className="text-xs uppercase tracking-wider font-bold">
+                  {ctaText}
                 </ButtonRegular>
-                {ctaText && (
-                  <ButtonRegular onClick={openWorkspace} variant="accent" className="text-xs uppercase tracking-wider font-bold">
-                    {ctaText}
-                  </ButtonRegular>
-                )}
-              </>
+              )
             )}
           </div>
         </div>

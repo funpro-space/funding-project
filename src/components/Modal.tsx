@@ -100,7 +100,7 @@ export function ModalOverlay({
     <div
       data-slot="modal-overlay"
       data-state={open ? "open" : "closed"}
-      className={cn("fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-all duration-300", className)}
+      className={cn("modal-overlay-bg", className)}
       {...props}
     />
   );
@@ -152,7 +152,7 @@ export function ModalContent({
     <ModalPortal>
       <ModalOverlay className={overlayClassName} />
       <div
-        className="fixed inset-0 z-[10000] flex items-center justify-center p-4 overflow-y-auto pointer-events-none"
+        className="modal-content-overlay-wrapper"
       >
         <div
           data-slot="modal-content"
@@ -161,7 +161,7 @@ export function ModalContent({
           data-loading={isLoading ? "true" : undefined}
           data-state={open ? "open" : "closed"}
           className={cn(
-            "relative z-[10000] w-full bg-background border rounded-lg shadow-lg flex flex-col transition-all duration-300 pointer-events-auto",
+            "modal-dialog-card",
             className
           )}
           onClick={(e) => e.stopPropagation()}
@@ -329,18 +329,18 @@ export function ModalCloseButton({ className, ...props }: React.ComponentProps<"
       onClick={() => onOpenChange(false)}
       data-slot="modal-close"
       className={cn(
-        "group relative flex items-center justify-center rounded-full transition-all duration-300 shrink-0 size-11 bg-transparent border-none p-0 text-foreground",
+        "modal-round-close-btn",
         className
       )}
       aria-label="Close"
       {...props}
     >
-      <div className="relative size-6 flex items-center justify-center pointer-events-none">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-6 h-[2.8px] bg-current group-hover:bg-foreground rounded-full transition-all duration-300 ease-in-out rotate-45 group-hover:rotate-0 group-hover:w-[5px] group-hover:h-[5px]" />
+      <div className="modal-round-close-icon-container">
+        <div className="modal-round-close-icon-wrapper">
+          <div className="modal-round-close-line modal-round-close-line-1" />
         </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-6 h-[2.8px] bg-current group-hover:bg-foreground rounded-full transition-all duration-300 ease-in-out -rotate-45 group-hover:rotate-0 group-hover:w-[5px] group-hover:h-[5px]" />
+        <div className="modal-round-close-icon-wrapper">
+          <div className="modal-round-close-line modal-round-close-line-2" />
         </div>
       </div>
     </button>

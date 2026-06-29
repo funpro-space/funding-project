@@ -4,8 +4,10 @@ import React, { createContext, useContext, useState } from "react";
 
 interface WorkspaceModalContextType {
   isOpen: boolean;
-  openWorkspace: () => void;
+  openWorkspace: (narrative?: string | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | unknown) => void;
   closeWorkspace: () => void;
+  initialNarrative: string;
+  setInitialNarrative: (val: string) => void;
   isUpdatesOpen: boolean;
   openUpdates: () => void;
   closeUpdates: () => void;
@@ -16,8 +18,14 @@ const WorkspaceModalContext = createContext<WorkspaceModalContextType | undefine
 export function WorkspaceModalProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
+  const [initialNarrative, setInitialNarrative] = useState("");
 
-  const openWorkspace = () => setIsOpen(true);
+  const openWorkspace = (narrative?: string | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | unknown) => {
+    if (narrative && typeof narrative === "string") {
+      setInitialNarrative(narrative);
+    }
+    setIsOpen(true);
+  };
   const closeWorkspace = () => setIsOpen(false);
 
   const openUpdates = () => setIsUpdatesOpen(true);
@@ -29,6 +37,8 @@ export function WorkspaceModalProvider({ children }: { children: React.ReactNode
         isOpen,
         openWorkspace,
         closeWorkspace,
+        initialNarrative,
+        setInitialNarrative,
         isUpdatesOpen,
         openUpdates,
         closeUpdates,

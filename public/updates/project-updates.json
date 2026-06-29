@@ -1,20 +1,14 @@
 [
   {
-    "id": "3",
-    "title": "Our first update is here!",
-    "content": "We have successfully set up our first working version. Everything is up and running in our workspace, and we are ready to start building!",
-    "date": "2026-06-25"
+    "id": "2",
+    "title": "Live Test Engine Enabled Without Wallet!",
+    "content": "We enabled the live test engine without wallet connection. However, unlock more tries once you connect your wallet.",
+    "date": "2026-06-29"
   },
   {
     "id": "1",
-    "title": "We are registered!",
-    "content": "Our project registration is complete and verified! We are getting our workspace ready for the next steps.",
-    "date": "2026-06-20"
-  },
-  {
-    "id": "2",
-    "title": "Payment setup is ready!",
-    "content": "We finished setting up our demo payments! Now we can easily run and test payment scenarios.",
-    "date": "2026-06-19"
+    "title": "Our first update is here!",
+    "content": "We have successfully set up our first working version. Everything is up and running in our workspace, and we are ready to start building!",
+    "date": "2026-06-25"
   }
 ]

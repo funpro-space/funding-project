@@ -4,6 +4,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import dbConnect from "@/lib/mongodb";
 import FounderProfile from "@/models/FounderProfile";
+import PublicStats from "@/models/PublicStats";
+import GuestIpLimit from "@/models/GuestIpLimit";
 import { estimateGeminiVertexUsdCost } from "@/lib/ai/gemini-token-cost";
 
 // Initialize AI Client based on active environment credentials.
@@ -198,14 +200,63 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing narrative" }, { status: 400 });
     }
 
+    let ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
+    if (ip.includes(',')) {
+      ip = ip.split(',')[0].trim();
+    }
+
+    if (!address) {
+      const cookieHeader = req.headers.get('cookie') || '';
+      const hasGuestCookie = cookieHeader.includes('guest_eval_limit=1');
+      if (hasGuestCookie) {
+        console.warn("[WORKSPACE_AI_REVIEW_API] Guest Cookie rate limit exceeded");
+        return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
+      }
+
+      await dbConnect();
+      const now = new Date();
+      const limitRecord = await GuestIpLimit.findById(ip);
+      
+      if (limitRecord) {
+        if (limitRecord.count >= 1 && limitRecord.resetAt > now) {
+          console.warn(`[WORKSPACE_AI_REVIEW_API] Guest IP rate limit exceeded for IP: ${ip}`);
+          return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
+        }
+        
+        if (limitRecord.resetAt <= now) {
+          limitRecord.count = 1;
+          limitRecord.resetAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        } else {
+          limitRecord.count += 1;
+        }
+        await limitRecord.save();
+      } else {
+        await GuestIpLimit.create({
+          _id: ip,
+          count: 1,
+          resetAt: new Date(now.getTime() + 24 * 60 * 60 * 1000)
+        });
+      }
+    }
+
     if (address) {
       await dbConnect();
       const normalizedAddress = address.toLowerCase();
       const profile = await FounderProfile.findById(normalizedAddress);
       
-      const currentChatCount = profile?.chatCount || profile?.geminiEvaluation?.chatCount || 0;
-      if (currentChatCount >= 10) {
-        return NextResponse.json({ error: "You have reached your limit of 10 narrative evaluations." }, { status: 403 });
+      let currentChatCount = profile?.chatCount || profile?.geminiEvaluation?.chatCount || 0;
+      const now = new Date();
+      if (profile && profile.updatedAt) {
+        const lastUpdated = new Date(profile.updatedAt);
+        const diffTime = Math.abs(now.getTime() - lastUpdated.getTime());
+        const diffDays = diffTime / (1000 * 60 * 60 * 24);
+        if (diffDays >= 1) {
+          currentChatCount = 0;
+        }
+      }
+
+      if (currentChatCount >= 100) {
+        return NextResponse.json({ error: "You have reached your daily limit of 100 narrative evaluations. Please try again tomorrow." }, { status: 403 });
       }
       
       updatedChatCount = currentChatCount + 1;
@@ -312,6 +363,26 @@ Perform the following tasks:
       missingDetail: structuredObject?.industryExperience?.missingExperienceDetail
     });
 
+    // Update global public stats
+    try {
+      await PublicStats.findByIdAndUpdate(
+        "global",
+        {
+          $inc: {
+            totalChats: 1,
+            totalInputTokens: usage?.promptTokenCount || 0,
+            totalOutputTokens: usage?.candidatesTokenCount || 0,
+            totalTotalTokens: usage?.totalTokenCount || 0,
+            totalCostUsd: cost.total || 0,
+          }
+        },
+        { upsert: true }
+      );
+      console.log("[WORKSPACE_AI_REVIEW_API] Public stats successfully accumulated.");
+    } catch (statsErr) {
+      console.error("[WORKSPACE_AI_REVIEW_API] Failed to update global stats:", statsErr);
+    }
+
     let finalPayload = { ...structuredObject };
 
     if (address) {
@@ -351,7 +422,11 @@ Perform the following tasks:
       }
     }
 
-    return NextResponse.json(finalPayload);
+    const res = NextResponse.json(finalPayload);
+    if (!address) {
+      res.headers.set('Set-Cookie', 'guest_eval_limit=1; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict');
+    }
+    return res;
   } catch (error) {
     const err = error as Error & { statusCode?: number; responseBody?: string };
     console.error("[WORKSPACE_AI_REVIEW_API] CRITICAL AI Review API Error:", err);
@@ -442,6 +517,10 @@ Perform the following tasks:
       }
     }
 
-    return NextResponse.json(fallbackResponse);
+    const res = NextResponse.json(fallbackResponse);
+    if (!address) {
+      res.headers.set('Set-Cookie', 'guest_eval_limit=1; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict');
+    }
+    return res;
   }
 }

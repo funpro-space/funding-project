@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Fun Pro | Project Development & Funding',
-  description: 'Making project development and sustainable funding accessible and efficient on Base.',
+  description: 'We connect Web3 and the real-world economy. Through specialized tools and milestone-based funding, we empower artists, craftspeople, farmers, and sustainable producers to build and scale their projects.',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Fun Pro | Project Development & Funding',
-    description: 'Making project development and sustainable funding accessible and efficient on Base.',
+    description: 'We connect Web3 and the real-world economy. Through specialized tools and milestone-based funding, we empower artists, craftspeople, farmers, and sustainable producers to build and scale their projects.',
     url: 'https://funpro.space',
     type: 'website',
     images: [
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Fun Pro | Project Development & Funding',
-    description: 'Making project development and sustainable funding accessible and efficient on Base.',
+    description: 'We connect Web3 and the real-world economy. Through specialized tools and milestone-based funding, we empower artists, craftspeople, farmers, and sustainable producers to build and scale their projects.',
     images: ['https://funpro.space/app-screenshot.webp'],
   },
   other: {

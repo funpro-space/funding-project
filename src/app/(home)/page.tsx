@@ -1,11 +1,10 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import OnchainStepper from '@/components/home/OnchainStepper';
-import MarketingHero from '@/components/home/HomeHero';
-import BottomCallToAction from '@/components/home/BottomCallToAction';
+import MarketingHero, { PublicStatsType } from '@/components/home/HomeHero';
 import FAQ from '@/components/home/FAQ';
 import Mission from '@/components/home/Mission';
 import FloatingUSDC from '@/components/home/FloatingUSDC';
@@ -14,6 +13,9 @@ import { usePrivy } from '@privy-io/react-auth';
 import { ButtonLoader } from '@/components/ButtonLoader';
 import { ModernMenu, ModernMenuTrigger, ModernMenuContent, ModernMenuItem } from '@/components/ModernMenu';
 import RevealIcon from '@/components/RevealIcon';
+import ProjectUpdatesView from '@/components/updates/ProjectUpdatesView';
+import AIChatbox from '@/components/home/AIChatbox';
+import { useWorkspaceModal } from '@/components/providers/WorkspaceModalProvider';
 
 export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,6 +23,17 @@ export default function HomePage() {
   const { logout, authenticated: isConnected, user } = usePrivy();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [publicStats, setPublicStats] = useState<PublicStatsType | null>(null);
+  const { openWorkspace } = useWorkspaceModal();
+
+  useEffect(() => {
+    fetch('/api/public-stats')
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) setPublicStats(data);
+      })
+      .catch(err => console.error("Error fetching public stats:", err));
+  }, []);
 
   console.log("[Logout Debug - page.tsx] Render - isConnected:", isConnected, "isLoggingOut:", isLoggingOut, "isMenuOpen:", isMenuOpen, "Has user:", !!user);
 
@@ -65,7 +78,7 @@ export default function HomePage() {
 
       if (fadeElement) {
         tl.fromTo(fadeElement,
-          { opacity: 0 },
+          { opacity: 1 }, // Changed opacity starting point if needed
           { opacity: 1, duration: 0.8 },
           "-=0.2"
         );
@@ -77,24 +90,61 @@ export default function HomePage() {
     <div ref={containerRef} className="flex flex-col">
       
       {/* RENDER PRE-BUILT MARKETING HERO */}
-      <MarketingHero />
+      <MarketingHero onOpenSandbox={openWorkspace} />
+
+      {/* HIDDEN CONTAINER FOR SEO / SCRAPERS TO DETECT PROJECT UPDATES IN DOM */}
+      <div className="hidden" aria-hidden="true">
+        <ProjectUpdatesView />
+      </div>
+
+      {/* AI UNDERWRITING SANDBOX BANNER */}
+      <AIChatbox />
 
       {/* STEPPER SECTION */}
       <section className="stepper-section py-5 md:py-12">
+        {/* Stepper Header Title Block */}
+        <div className="text-center mb-10 relative z-10">
+          <h3 className="brand-h3">
+            Our Project Development Status and Next Steps
+          </h3>
+          <p className="brand-paragraph text-slate-300 max-w-3xl mx-auto">
+          Our process ensures our project is fully prepared for the next set of features. 
+          </p>
+        </div>
+
         <div className="stepper-glow-bg" />
         <div className="stepper-outer-container">
           <OnchainStepper />
         </div>
       </section>
 
-      {/* BOTTOM CALL TO ACTION SECTION */}
-      <BottomCallToAction />
+
+
 
       {/* FAQ SECTION */}
       <FAQ />
 
       {/* OUR MISSION SECTION */}
       <Mission />
+
+      {/* PUBLIC TELEMETRY STATS SECTION */}
+      {publicStats && (
+        <div className="telemetry-wrapper animate-hero opacity-0">
+          <div className="w-fit mx-auto">
+            <div className="telemetry-container">
+              {/* <div className="telemetry-status">
+                <span className="telemetry-pulse-dot" />
+                <span className="telemetry-label">Activity:</span>
+              </div> */}
+              <div className="telemetry-stats">
+                <span>PROJECTS EVALUATED: <strong>{publicStats.totalChats?.toLocaleString() || 0}</strong></span>
+                <span>TOKENS PROCESSED: <strong>{publicStats.totalTotalTokens?.toLocaleString() || 0}</strong></span>
+                {/* <span>USD VALUE DELIVERED: <strong>${(publicStats.totalCostUsd || 0).toFixed(4)}</strong></span> */}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* FLOATING USDC COIN (Scroll animated) */}
       <FloatingUSDC />

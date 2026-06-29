@@ -156,6 +156,7 @@ export interface AiChatboxProps {
   submitDisabled?: boolean;
   maxLength?: number;
   remainingChats?: number;
+  maxChats?: number;
 }
 
 export function AiChatbox({
@@ -172,6 +173,7 @@ export function AiChatbox({
   submitDisabled = false,
   maxLength = 1000,
   remainingChats,
+  maxChats = 10,
 }: AiChatboxProps) {
   const trimmed = value.trim();
   const words = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
@@ -424,12 +426,12 @@ export function AiChatbox({
                 {/* Metrics Info */}
                 <div className="flex items-center gap-1.5 shrink-0">
                   {remainingChats !== undefined && (
-                    <div className="chatbox-eval-dots-container" title={`${remainingChats} evaluations remaining out of 10`}>
+                    <div className="chatbox-eval-dots-container" title={`${remainingChats} evaluations remaining out of ${maxChats}`}>
                       <span className="text-[9px] uppercase font-mono tracking-wider opacity-60 mr-1 select-none">
                         Evals
                       </span>
-                      {Array.from({ length: 10 }).map((_, index) => {
-                        const usedChats = 10 - remainingChats;
+                      {Array.from({ length: maxChats }).map((_, index) => {
+                        const usedChats = maxChats - remainingChats;
                         const isFilled = index < usedChats;
                         return (
                           <div

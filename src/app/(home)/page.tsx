@@ -129,8 +129,8 @@ export default function HomePage() {
       <Mission />
 
       {/* PUBLIC TELEMETRY STATS SECTION */}
-      {publicStats && (
-        <div className="telemetry-wrapper animate-hero opacity-0">
+      <div className="telemetry-wrapper animate-hero opacity-0">
+        {publicStats && (
           <div className="w-fit mx-auto">
             <div className="telemetry-container">
               {/* <div className="telemetry-status">
@@ -144,8 +144,8 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* FLOATING USDC COIN (Scroll animated) */}
       <FloatingUSDC />

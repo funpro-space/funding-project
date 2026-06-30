@@ -4,6 +4,11 @@ import GuestIpLimit from "@/models/GuestIpLimit";
 
 export async function GET(req: Request) {
   try {
+    // In local development, guest limits do not apply
+    if (process.env.NODE_ENV === "development") {
+      return NextResponse.json({ limited: false, count: 0 });
+    }
+
     const { searchParams } = new URL(req.url);
     const address = searchParams.get("address");
 

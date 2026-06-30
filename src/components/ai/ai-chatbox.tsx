@@ -430,19 +430,25 @@ export function AiChatbox({
                       <span className="text-[9px] uppercase font-mono tracking-wider opacity-60 mr-1 select-none">
                         Evals
                       </span>
-                      {Array.from({ length: maxChats }).map((_, index) => {
-                        const usedChats = maxChats - remainingChats;
-                        const isFilled = index < usedChats;
-                        return (
-                          <div
-                            key={index}
-                            className={cn(
-                              "chatbox-eval-dot",
-                              isFilled && "filled"
-                            )}
-                          />
-                        );
-                      })}
+                      {maxChats <= 10 ? (
+                        Array.from({ length: maxChats }).map((_, index) => {
+                          const usedChats = maxChats - remainingChats;
+                          const isFilled = index < usedChats;
+                          return (
+                            <div
+                              key={index}
+                              className={cn(
+                                "chatbox-eval-dot",
+                                isFilled && "filled"
+                              )}
+                            />
+                          );
+                        })
+                      ) : (
+                        <span className="text-[10px] font-mono font-bold text-[#b2e70d] px-1 select-none">
+                          {remainingChats}/{maxChats}
+                        </span>
+                      )}
                     </div>
                   )}
                   <span className="chatbox-metric">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
 import { ButtonRegular } from "@/components/ButtonRegular";
@@ -149,9 +149,10 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
     checkLimit();
   }, [address]);
 
+  const isDev = process.env.NODE_ENV === "development";
   const maxChats = isConnected ? 100 : 3;
-  const remainingChats = isConnected ? Math.max(0, 100 - chatCount) : Math.max(0, 3 - guestCount);
-  const isOutOfChats = isConnected ? (chatCount >= 100) : (guestUsed || guestCount >= 3);
+  const remainingChats = isDev ? 9999 : (isConnected ? Math.max(0, 100 - chatCount) : Math.max(0, 3 - guestCount));
+  const isOutOfChats = isDev ? false : (isConnected ? (chatCount >= 100) : (guestUsed || guestCount >= 3));
 
   const [yearsOfExperience, setYearsOfExperience] = useState<number>(0);
   const [masteryTier, setMasteryTier] = useState<"Apprentice" | "Professional" | "Master" | "Unknown">("Unknown");
@@ -160,6 +161,10 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
   const [showVibeGuide, setShowVibeGuide] = useState(false);
 
   const isUnlocked = true;
+
+  const initialConnectionCheckedRef = useRef(false);
+  const justConnectedRef = useRef(false);
+  const prevConnectedRef = useRef(isConnected);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -209,20 +214,8 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
             });
             console.log("[WORKSPACE_VIEW] Synchronized profile state. chatCount:", data.profile.chatCount || data.profile.geminiEvaluation?.chatCount || 0, "resultExists:", !!data.profile.geminiEvaluation);
           } else {
-            console.log("[WORKSPACE_VIEW] Sync indicated no existing database profile. Resetting state.");
-            // Reset states for new connection
-            setResult(null);
-            setEvalStartTime(0);
-            setRawNarrative("");
-            setLastEvaluatedText("");
-            setChatCount(0);
+            console.log("[WORKSPACE_VIEW] Sync indicated no existing database profile. Preserving active local session for registration.");
             setCompleteSuccess(false);
-            setLvl1Tokens({
-              input: 0,
-              output: 0,
-              total: 0,
-              cost: 0,
-            });
           }
         })
         .catch((err) => console.error("[WORKSPACE_VIEW] Error checking founder profile status:", err))
@@ -399,8 +392,8 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
       )
     : 0;
 
-  const handleSaveProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSaveProfile = useCallback(async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!result || !address) return;
     
     try {
@@ -427,7 +420,37 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
     } catch (err) {
       console.error("Failed to save profile:", err);
     }
-  };
+  }, [result, address, rawNarrative, allVectorsSufficient, trustScore, yearsOfExperience, masteryTier]);
+
+  // Monitor connection changes to identify when user has just authenticated
+  useEffect(() => {
+    if (!initialConnectionCheckedRef.current) {
+      initialConnectionCheckedRef.current = true;
+      return;
+    }
+    if (isConnected && !prevConnectedRef.current) {
+      justConnectedRef.current = true;
+    }
+    prevConnectedRef.current = isConnected;
+  }, [isConnected]);
+
+  // Handle immediate save/success modal presentation once connection completes
+  useEffect(() => {
+    if (justConnectedRef.current && !isInitialLoading && isConnected) {
+      justConnectedRef.current = false; // Reset immediately to prevent duplicate runs
+      
+      setTimeout(() => {
+        if (completeSuccess) {
+          // If already registered on DB, open success modal immediately
+          setShowSuccessModal(true);
+        } else if (result && allVectorsSufficient) {
+          // If not registered but qualified locally, auto-register
+          console.log("[WORKSPACE_VIEW] Connection detected with qualifying local evaluation. Auto-registering...");
+          handleSaveProfile();
+        }
+      }, 0);
+    }
+  }, [isInitialLoading, isConnected, completeSuccess, result, allVectorsSufficient, handleSaveProfile]);
 
 
 

@@ -119,6 +119,7 @@ export default function AnimationEngine({ children }: AnimationEngineProps) {
         {!isLoaded && (
           <div
             ref={loaderRef}
+            id="global-preloader"
             className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-zinc-950"
           >
             {/* Cyberpunk glowing background auras */}
@@ -143,7 +144,10 @@ export default function AnimationEngine({ children }: AnimationEngineProps) {
         )}
 
         {/* Content body wrapper with smooth fade reveal */}
-        <div className={`w-full transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div
+          id="global-content-wrapper"
+          className={`w-full transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        >
           {children}
         </div>
       </div>

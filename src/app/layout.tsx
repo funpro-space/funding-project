@@ -47,6 +47,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <noscript>
+          <style>{`
+            #global-preloader {
+              display: none !important;
+            }
+            #global-content-wrapper {
+              opacity: 1 !important;
+              transition: none !important;
+            }
+          `}</style>
+        </noscript>
+      </head>
       <body className={`${inter.className} bg-zinc-950 text-zinc-200 antialiased`}>
         <OnchainProvider>
           {children}

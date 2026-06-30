@@ -206,49 +206,55 @@ export async function POST(req: Request) {
       ip = ip.split(',')[0].trim();
     }
 
+    const isDev = process.env.NODE_ENV === "development";
+
     if (!address) {
-      const cookieHeader = req.headers.get('cookie') || '';
-      const hasGuestCookie = cookieHeader.includes('guest_eval_limit=3');
-      if (hasGuestCookie) {
-        console.warn("[WORKSPACE_AI_REVIEW_API] Guest Cookie rate limit exceeded");
-        return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
-      }
-
-      let cookieCount = 0;
-      const countMatch = cookieHeader.match(/guest_eval_count=(\d+)/);
-      if (countMatch) {
-        cookieCount = parseInt(countMatch[1], 10);
-      }
-
-      await dbConnect();
-      const now = new Date();
-      const limitRecord = await GuestIpLimit.findById(ip);
-      
-      const dbCount = (limitRecord && limitRecord.resetAt > now) ? limitRecord.count : 0;
-      const effectiveCount = Math.max(cookieCount, dbCount);
-
-      if (effectiveCount >= 3) {
-        console.warn(`[WORKSPACE_AI_REVIEW_API] Guest rate limit exceeded (count: ${effectiveCount})`);
-        return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
-      }
-
-      const nextCount = effectiveCount + 1;
-      currentGuestCount = nextCount;
-
-      if (limitRecord) {
-        if (limitRecord.resetAt <= now) {
-          limitRecord.count = nextCount;
-          limitRecord.resetAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-        } else {
-          limitRecord.count = nextCount;
-        }
-        await limitRecord.save();
+      if (isDev) {
+        currentGuestCount = 0;
       } else {
-        await GuestIpLimit.create({
-          _id: ip,
-          count: nextCount,
-          resetAt: new Date(now.getTime() + 24 * 60 * 60 * 1000)
-        });
+        const cookieHeader = req.headers.get('cookie') || '';
+        const hasGuestCookie = cookieHeader.includes('guest_eval_limit=3');
+        if (hasGuestCookie) {
+          console.warn("[WORKSPACE_AI_REVIEW_API] Guest Cookie rate limit exceeded");
+          return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
+        }
+
+        let cookieCount = 0;
+        const countMatch = cookieHeader.match(/guest_eval_count=(\d+)/);
+        if (countMatch) {
+          cookieCount = parseInt(countMatch[1], 10);
+        }
+
+        await dbConnect();
+        const now = new Date();
+        const limitRecord = await GuestIpLimit.findById(ip);
+        
+        const dbCount = (limitRecord && limitRecord.resetAt > now) ? limitRecord.count : 0;
+        const effectiveCount = Math.max(cookieCount, dbCount);
+
+        if (effectiveCount >= 3) {
+          console.warn(`[WORKSPACE_AI_REVIEW_API] Guest rate limit exceeded (count: ${effectiveCount})`);
+          return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
+        }
+
+        const nextCount = effectiveCount + 1;
+        currentGuestCount = nextCount;
+
+        if (limitRecord) {
+          if (limitRecord.resetAt <= now) {
+            limitRecord.count = nextCount;
+            limitRecord.resetAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+          } else {
+            limitRecord.count = nextCount;
+          }
+          await limitRecord.save();
+        } else {
+          await GuestIpLimit.create({
+            _id: ip,
+            count: nextCount,
+            resetAt: new Date(now.getTime() + 24 * 60 * 60 * 1000)
+          });
+        }
       }
     }
 
@@ -268,7 +274,7 @@ export async function POST(req: Request) {
         }
       }
 
-      if (currentChatCount >= 100) {
+      if (currentChatCount >= 100 && !isDev) {
         return NextResponse.json({ error: "You have reached your daily limit of 100 narrative evaluations. Please try again tomorrow." }, { status: 403 });
       }
       

@@ -8,4 +8,4 @@
 - [Theme Style Tokens](/src/styles/theme.css) : Single-source-of-truth brand variables for the Light Blue Nice theme spectrum.
 
 ## AI Infrastructure Integration
-- [Evaluation Engine API](/src/app/api/evaluate/route.ts) : Processes target business datasets, vectorizes metrics, and triggers structured Gemini-3.5-Flash evaluation outputs.
+- [Evaluation Engine API](/src/app/api/workspace-ai-review/route.ts) : Processes target business datasets, vectorizes metrics, and triggers structured Gemini-3.5-Flash evaluation outputs.

@@ -42,10 +42,11 @@ export default function AIChatbox() {
     checkLimit();
   }, [address, isOpen]);
 
+  const isDev = process.env.NODE_ENV === "development";
   const isUnlocked = true;
   const maxChats = isConnected ? 100 : 3;
-  const remainingChats = isConnected ? Math.max(0, 100 - chatCount) : Math.max(0, 3 - guestCount);
-  const isOutOfChats = isConnected ? (chatCount >= 100) : (guestUsed || guestCount >= 3);
+  const remainingChats = isDev ? 9999 : (isConnected ? Math.max(0, 100 - chatCount) : Math.max(0, 3 - guestCount));
+  const isOutOfChats = isDev ? false : (isConnected ? (chatCount >= 100) : (guestUsed || guestCount >= 3));
 
   // Retrieve user chatCount from profile db if logged in
   useEffect(() => {
@@ -89,8 +90,7 @@ export default function AIChatbox() {
 
   return (
     <>
-      {!isOpen && (
-        <section className="py-5 px-4 md:px-8 z-10 relative flex flex-col items-center w-full max-w-7xl mx-auto animate-hero opacity-0">
+      <section className="py-5 px-4 md:px-8 z-10 relative flex flex-col items-center w-full max-w-7xl mx-auto animate-hero opacity-0">
           {/* Header block describing the interactive underwriting sandbox */}
 
           <div className="w-full max-w-4xl px-6 pb-6 md:px-8 md:pb-8 rounded-[var(--brand-radius-lg)] relative overflow-visible">
@@ -296,7 +296,6 @@ export default function AIChatbox() {
             </div>
           </div>
         </section>
-      )}
     </>
   );
 }

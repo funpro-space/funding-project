@@ -18,12 +18,38 @@ interface FAQItem {
 }
 
 const renderTextWithIcons = (text: string) => {
-  const regex = /(Coinbase Smart Wallet|MetaMask|Rainbow|Uniswap|Base Mainnet|USDC|ETH|Gemini AI|Gemini)/g;
+  const regex = /(Coinbase Smart Wallet|MetaMask|Rainbow|Uniswap|Base Mainnet|USDC|ETH|Gemini AI|Gemini|https:\/\/base\.org|https:\/\/keys\.coinbase\.com)/g;
   const parts = text.split(regex);
   if (parts.length === 1) return text;
   
   return parts.map((part, index) => {
     switch (part) {
+      case "https://base.org":
+        return (
+          <a
+            key={index}
+            href="https://base.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="faq-link underline hover:opacity-80 transition-opacity"
+            style={{ textDecoration: 'underline' }}
+          >
+            https://base.org
+          </a>
+        );
+      case "https://keys.coinbase.com":
+        return (
+          <a
+            key={index}
+            href="https://keys.coinbase.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="faq-link underline hover:opacity-80 transition-opacity"
+            style={{ textDecoration: 'underline' }}
+          >
+            https://keys.coinbase.com
+          </a>
+        );
       case "Coinbase Smart Wallet":
         return (
           <span key={index} className="faq-term-wrapper">
@@ -197,7 +223,7 @@ export default function FAQ() {
     {
       id: "base-mainnet",
       question: "Base Mainnet",
-      answer: "Think of Base as a fast, modern digital highway built by Coinbase. It connects your transactions to the real world instantly and securely, keeping fees incredibly low. Mainnet just means the highway is officially open, live, and ready for real-world projects."
+      answer: "Think of Base as a fast, modern digital highway built by Coinbase. It connects your transactions to the real world instantly and securely, keeping fees incredibly low. Mainnet just means the highway is officially open, live, and ready for real-world projects. Learn more at https://base.org."
     },
     {
       id: "how-does-verification-work",

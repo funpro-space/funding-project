@@ -184,6 +184,7 @@ export async function POST(req: Request) {
   let rawNarrative = "";
   let address = "";
   let updatedChatCount = 0;
+  let currentGuestCount = 0;
   try {
     try {
       const body = await req.json();
@@ -207,33 +208,45 @@ export async function POST(req: Request) {
 
     if (!address) {
       const cookieHeader = req.headers.get('cookie') || '';
-      const hasGuestCookie = cookieHeader.includes('guest_eval_limit=1');
+      const hasGuestCookie = cookieHeader.includes('guest_eval_limit=3');
       if (hasGuestCookie) {
         console.warn("[WORKSPACE_AI_REVIEW_API] Guest Cookie rate limit exceeded");
         return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
+      }
+
+      let cookieCount = 0;
+      const countMatch = cookieHeader.match(/guest_eval_count=(\d+)/);
+      if (countMatch) {
+        cookieCount = parseInt(countMatch[1], 10);
       }
 
       await dbConnect();
       const now = new Date();
       const limitRecord = await GuestIpLimit.findById(ip);
       
+      const dbCount = (limitRecord && limitRecord.resetAt > now) ? limitRecord.count : 0;
+      const effectiveCount = Math.max(cookieCount, dbCount);
+
+      if (effectiveCount >= 3) {
+        console.warn(`[WORKSPACE_AI_REVIEW_API] Guest rate limit exceeded (count: ${effectiveCount})`);
+        return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
+      }
+
+      const nextCount = effectiveCount + 1;
+      currentGuestCount = nextCount;
+
       if (limitRecord) {
-        if (limitRecord.count >= 1 && limitRecord.resetAt > now) {
-          console.warn(`[WORKSPACE_AI_REVIEW_API] Guest IP rate limit exceeded for IP: ${ip}`);
-          return NextResponse.json({ error: "Guest rate limit exceeded. Please connect your wallet to continue." }, { status: 429 });
-        }
-        
         if (limitRecord.resetAt <= now) {
-          limitRecord.count = 1;
+          limitRecord.count = nextCount;
           limitRecord.resetAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
         } else {
-          limitRecord.count += 1;
+          limitRecord.count = nextCount;
         }
         await limitRecord.save();
       } else {
         await GuestIpLimit.create({
           _id: ip,
-          count: 1,
+          count: nextCount,
           resetAt: new Date(now.getTime() + 24 * 60 * 60 * 1000)
         });
       }
@@ -422,9 +435,15 @@ Perform the following tasks:
       }
     }
 
-    const res = NextResponse.json(finalPayload);
+    const res = NextResponse.json({
+      ...finalPayload,
+      ...(address ? {} : { guestCount: currentGuestCount, limited: currentGuestCount >= 3 })
+    });
     if (!address) {
-      res.headers.set('Set-Cookie', 'guest_eval_limit=1; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict');
+      res.headers.set('Set-Cookie', `guest_eval_count=${currentGuestCount}; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict`);
+      if (currentGuestCount >= 3) {
+        res.headers.append('Set-Cookie', 'guest_eval_limit=3; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict');
+      }
     }
     return res;
   } catch (error) {
@@ -517,9 +536,15 @@ Perform the following tasks:
       }
     }
 
-    const res = NextResponse.json(fallbackResponse);
+    const res = NextResponse.json({
+      ...fallbackResponse,
+      ...(address ? {} : { guestCount: currentGuestCount, limited: currentGuestCount >= 3 })
+    });
     if (!address) {
-      res.headers.set('Set-Cookie', 'guest_eval_limit=1; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict');
+      res.headers.set('Set-Cookie', `guest_eval_count=${currentGuestCount}; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict`);
+      if (currentGuestCount >= 3) {
+        res.headers.append('Set-Cookie', 'guest_eval_limit=3; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict');
+      }
     }
     return res;
   }

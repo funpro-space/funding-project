@@ -9,13 +9,20 @@ export async function GET(req: Request) {
 
     // If wallet address is connected, guest IP/cookie limits do not apply
     if (address && address !== "undefined" && address !== "null") {
-      return NextResponse.json({ limited: false });
+      return NextResponse.json({ limited: false, count: 0 });
     }
 
     const cookieHeader = req.headers.get("cookie") || "";
-    const hasGuestCookie = cookieHeader.includes("guest_eval_limit=1");
+    
+    let cookieCount = 0;
+    const countMatch = cookieHeader.match(/guest_eval_count=(\d+)/);
+    if (countMatch) {
+      cookieCount = parseInt(countMatch[1], 10);
+    }
+
+    const hasGuestCookie = cookieHeader.includes("guest_eval_limit=3") || cookieCount >= 3;
     if (hasGuestCookie) {
-      return NextResponse.json({ limited: true });
+      return NextResponse.json({ limited: true, count: Math.max(3, cookieCount) });
     }
 
     let ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
@@ -27,13 +34,16 @@ export async function GET(req: Request) {
     const now = new Date();
     const limitRecord = await GuestIpLimit.findById(ip);
 
-    if (limitRecord && limitRecord.count >= 1 && limitRecord.resetAt > now) {
-      return NextResponse.json({ limited: true });
+    const dbCount = (limitRecord && limitRecord.resetAt > now) ? limitRecord.count : 0;
+    const finalCount = Math.max(cookieCount, dbCount);
+
+    if (finalCount >= 3) {
+      return NextResponse.json({ limited: true, count: finalCount });
     }
 
-    return NextResponse.json({ limited: false });
+    return NextResponse.json({ limited: false, count: finalCount });
   } catch (error) {
     console.error("[CHECK_GUEST_LIMIT] Error checking rate limit:", error);
-    return NextResponse.json({ limited: false }); // Default to not limited if check fails
+    return NextResponse.json({ limited: false, count: 0 }); // Default to not limited if check fails
   }
 }

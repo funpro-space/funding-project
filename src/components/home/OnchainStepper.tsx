@@ -42,7 +42,7 @@ export default function OnchainStepper() {
   const steps: Step[] = [
     {
       title: "Project Analysis",
-      description: "The feature enabling founders to discover new possibilities that are inside of the process.",
+      description: "Analyze your project to see how your strategy stacks up on-chain.",
       badge: "Base Mainnet Live",
       badgeIcon: "/media/home/icons/base-mainnet.svg",
       featuresTitle: "Level 1 Feature Capability Set",
@@ -54,7 +54,7 @@ export default function OnchainStepper() {
     },
     {
       title: "Project Workspace",
-      description: "A tool for possibilities and a workstation for your curiosity—flexible, open, and built to help us prepare for the launch.",
+      description: "Digital workspace to organize research, draft strategies, and share your project’s progress with the ecosystem.",
       badge: "Module Ready",
       featuresTitle: "Level 2 Internal System Dependencies",
       features: [

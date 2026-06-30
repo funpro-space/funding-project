@@ -190,7 +190,6 @@ export default function NarrativePolishModal({
           theme="emerald"
           className="w-full sm:w-auto font-mono uppercase tracking-wider"
         >
-          <span className="text-sm">✦</span>
           Confirm & Update
         </ButtonRegular2>
       </div>

@@ -36,6 +36,7 @@ export const metadata: Metadata = {
   },
   other: {
     'base:app_id': '6a3e896b18b12c552e1c5232',
+    'talentapp:project_verification': '32ea2fb723c544dc9416dc4a6db2c699f3cdbf8b4346b23727d954344e9509c3e4edf285d52c1577121963e9f02f441421c27f6afc8c5b801d7997b033300bd1',
   }
 };
 

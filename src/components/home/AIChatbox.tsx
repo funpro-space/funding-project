@@ -22,8 +22,10 @@ export default function AIChatbox() {
   const [chatCount, setChatCount] = useState(0);
   const [showPromptsDropdown, setShowPromptsDropdown] = useState(false);
   const [guestUsed, setGuestUsed] = useState(false);
+  const [guestCount, setGuestCount] = useState(0);
 
   useEffect(() => {
+    if (isOpen) return; // Skip fetching when workspace is open/active
     const checkLimit = async () => {
       try {
         const url = address 
@@ -32,20 +34,22 @@ export default function AIChatbox() {
         const res = await fetch(url);
         const data = await res.json();
         setGuestUsed(!!data.limited);
+        setGuestCount(data.count || 0);
       } catch (err) {
         console.error("[AIChatbox] Failed to check guest rate limit:", err);
       }
     };
     checkLimit();
-  }, [address]);
+  }, [address, isOpen]);
 
   const isUnlocked = true;
-  const maxChats = isConnected ? 100 : 1;
-  const remainingChats = isConnected ? Math.max(0, 100 - chatCount) : (guestUsed ? 0 : 1);
-  const isOutOfChats = isConnected ? (chatCount >= 100) : guestUsed;
+  const maxChats = isConnected ? 100 : 3;
+  const remainingChats = isConnected ? Math.max(0, 100 - chatCount) : Math.max(0, 3 - guestCount);
+  const isOutOfChats = isConnected ? (chatCount >= 100) : (guestUsed || guestCount >= 3);
 
   // Retrieve user chatCount from profile db if logged in
   useEffect(() => {
+    if (isOpen) return; // Skip fetching when workspace is open/active
     if (isConnected && address) {
       fetch(`/api/get-profile?address=${address.toLowerCase()}`)
         .then((res) => res.json())
@@ -62,7 +66,7 @@ export default function AIChatbox() {
         setChatCount(0);
       });
     }
-  }, [isConnected, address]);
+  }, [isConnected, address, isOpen]);
 
   const handlePreFlightSubmit = () => {
     if (!rawNarrative.trim()) {
@@ -101,7 +105,7 @@ export default function AIChatbox() {
                     <span className="glass-alert-text">
                       {isConnected 
                         ? "You have used all 10 of your narrative evaluations. If you need more access, please contact core registry support."
-                        : "You have reached your 1-evaluation guest limit. Connect your Coinbase Smart Wallet or another Web3 identity to instantly unlock more evaluations."}
+                        : "You have reached your 3-evaluation guest limit. Connect your Coinbase Smart Wallet or another Web3 identity to instantly unlock more evaluations."}
                     </span>
                   </div>
                 </div>

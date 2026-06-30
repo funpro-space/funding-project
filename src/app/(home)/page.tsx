@@ -24,16 +24,17 @@ export default function HomePage() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [publicStats, setPublicStats] = useState<PublicStatsType | null>(null);
-  const { openWorkspace } = useWorkspaceModal();
+  const { isOpen, openWorkspace } = useWorkspaceModal();
 
   useEffect(() => {
+    if (isOpen) return; // Skip fetching when workspace is open/active
     fetch('/api/public-stats')
       .then(res => res.json())
       .then(data => {
         if (!data.error) setPublicStats(data);
       })
       .catch(err => console.error("Error fetching public stats:", err));
-  }, []);
+  }, [isOpen]);
 
   console.log("[Logout Debug - page.tsx] Render - isConnected:", isConnected, "isLoggingOut:", isLoggingOut, "isMenuOpen:", isMenuOpen, "Has user:", !!user);
 

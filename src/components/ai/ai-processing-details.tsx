@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, CheckCircle2, Globe, FileText, Sparkles, Timer } from "lucide-react";
+import { Loader2, CheckCircle2, Globe, Sparkles, Cpu } from "lucide-react";
 
 // Minimal classmerger/cn utility if target project doesn't have it
 function cn(...classes: (string | boolean | undefined | null)[]) {
@@ -13,10 +13,11 @@ export interface AiProcessingDetailsProps {
   prompt: string;
   startTime: number;
   isComplete?: boolean;
+  tokens?: number;
 }
 
-export function AiProcessingDetails({ url, prompt, startTime, isComplete }: AiProcessingDetailsProps) {
-  const [elapsed, setElapsed] = useState(0);
+export function AiProcessingDetails({ url, prompt, startTime, isComplete, tokens }: AiProcessingDetailsProps) {
+  const [tokensProcessed, setTokensProcessed] = useState(0);
   const [step, setStep] = useState(isComplete ? 4 : 0);
 
   // Derive basic visual metadata from URL immediately
@@ -27,22 +28,42 @@ export function AiProcessingDetails({ url, prompt, startTime, isComplete }: AiPr
     if (isComplete) {
       const timer = setTimeout(() => {
         setStep(4);
-        setElapsed(Date.now() - startTime);
       }, 0);
       return () => clearTimeout(timer);
     }
-  }, [isComplete, startTime]);
+  }, [isComplete]);
+
+  useEffect(() => {
+    const estimatedInput = Math.max(12, Math.round((prompt || "").length / 4));
+    const t = setTimeout(() => {
+      setTokensProcessed(estimatedInput);
+    }, 0);
+    return () => clearTimeout(t);
+  }, [prompt, startTime]);
 
   useEffect(() => {
     if (isComplete) {
-      // Set state asynchronously or just let initial state handle it
-      return;
+      const t = setTimeout(() => {
+        if (tokens && tokens > 0) {
+          setTokensProcessed(tokens);
+        } else {
+          const estimatedInput = Math.max(12, Math.round((prompt || "").length / 4));
+          setTokensProcessed(prev => Math.max(prev, estimatedInput + 380));
+        }
+      }, 0);
+      return () => clearTimeout(t);
     }
+
     const timer = setInterval(() => {
-      setElapsed(Date.now() - startTime);
+      setTokensProcessed(prev => {
+        // Simulate real-time token processing / generation progress
+        const increment = Math.floor(Math.random() * 5) + 4; // 4 to 8 tokens per 100ms
+        return prev + increment;
+      });
     }, 100);
+
     return () => clearInterval(timer);
-  }, [startTime, isComplete]);
+  }, [isComplete, tokens, prompt]);
 
   useEffect(() => {
     if (isComplete) return;
@@ -67,8 +88,8 @@ export function AiProcessingDetails({ url, prompt, startTime, isComplete }: AiPr
           <h3 className="text-sm font-semibold tracking-tight">AI Processing Data</h3>
         </div>
         <div className="flex items-center gap-1.5 text-xs font-medium tabular-nums bg-background/80 px-2 py-1 rounded-md border border-border/50 shadow-sm">
-          <Timer className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className={elapsed > 10000 && !isComplete ? "text-amber-500" : ""}>{(elapsed / 1000).toFixed(1)}s</span>
+          <Cpu className={cn("h-3.5 w-3.5 text-muted-foreground", !isComplete && "animate-pulse")} />
+          <span className={tokensProcessed > 1500 && !isComplete ? "text-amber-500" : ""}>{tokensProcessed.toLocaleString()} Tokens</span>
         </div>
       </div>
 
@@ -106,12 +127,6 @@ export function AiProcessingDetails({ url, prompt, startTime, isComplete }: AiPr
                 <Globe className="h-3.5 w-3.5 text-blue-500 shrink-0" />
                 <span className="truncate font-medium">{domain}</span>
               </div>
-              {step > 1 && !isComplete && (
-                <div className="flex items-center gap-1.5 bg-background shadow-sm px-2.5 py-1.5 rounded-md">
-                   <FileText className="h-3.5 w-3.5 text-green-500 shrink-0" />
-                   <span className="animate-pulse bg-muted text-transparent rounded w-16 h-3 select-none">Reading</span>
-                </div>
-              )}
             </div>
           </div>
         </div>

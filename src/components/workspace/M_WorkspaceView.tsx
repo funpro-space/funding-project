@@ -130,6 +130,7 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
   const [polishStartTime, setPolishStartTime] = useState(0);
 
   const [guestUsed, setGuestUsed] = useState(false);
+  const [guestCount, setGuestCount] = useState(0);
 
   useEffect(() => {
     const checkLimit = async () => {
@@ -140,6 +141,7 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
         const res = await fetch(url);
         const data = await res.json();
         setGuestUsed(!!data.limited);
+        setGuestCount(data.count || 0);
       } catch (err) {
         console.error("[WorkspaceView] Failed to check guest rate limit:", err);
       }
@@ -147,9 +149,9 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
     checkLimit();
   }, [address]);
 
-  const maxChats = isConnected ? 100 : 1;
-  const remainingChats = isConnected ? Math.max(0, 100 - chatCount) : (guestUsed ? 0 : 1);
-  const isOutOfChats = isConnected ? (chatCount >= 100) : guestUsed;
+  const maxChats = isConnected ? 100 : 3;
+  const remainingChats = isConnected ? Math.max(0, 100 - chatCount) : Math.max(0, 3 - guestCount);
+  const isOutOfChats = isConnected ? (chatCount >= 100) : (guestUsed || guestCount >= 3);
 
   const [yearsOfExperience, setYearsOfExperience] = useState<number>(0);
   const [masteryTier, setMasteryTier] = useState<"Apprentice" | "Professional" | "Master" | "Unknown">("Unknown");
@@ -276,7 +278,14 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
       }
       
       if (!address) {
-        setGuestUsed(true);
+        if (data.guestCount !== undefined) {
+          setGuestCount(data.guestCount);
+        }
+        if (data.limited !== undefined) {
+          setGuestUsed(data.limited);
+        } else {
+          setGuestUsed(true);
+        }
       }
 
       if (data.chatCount !== undefined) {
@@ -712,6 +721,7 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
                 prompt={rawNarrative}
                 startTime={evalStartTime}
                 isComplete={!loading && !!result}
+                tokens={lvl1Tokens?.total}
               />
             </div>
           )}

@@ -30,7 +30,7 @@ export default function MarketingHero({}: MarketingHeroProps) {
 
         {/* 🚀 Sleek, Direct Funding Headline */}
         <div className="backdrop py-5 sm:py-7 lg:py-12">
-        <span className="animate-hero ">
+        <span className="animate-hero opacity-0">
         Funding and Support 
         </span>
         </div>

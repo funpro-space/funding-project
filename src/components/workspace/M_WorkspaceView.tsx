@@ -22,7 +22,7 @@ import StoryAssessment from "./C_StoryAssessment";
 import ExperienceProfile from "./C_ExperienceProfile";
 import ValidationMetrics from "./C_ValidationMetrics";
 import EcoGuidelines from "./C_EcoGuidelines";
-import TrainingGuidelines from "./C_TrainingGuidelines";
+// import TrainingGuidelines from "./C_TrainingGuidelines";
 import RegistrationStatus from "./C_RegistrationStatus";
 import VibeGuideModal from "./C_VibeGuideModal";
 import NarrativePolishModal from "./C_NarrativePolishModal";
@@ -770,7 +770,7 @@ export default function WorkspaceView({ onClose, onMessageSubmitted }: Workspace
                   customSuggestion={result.cardSuggestions?.ecoGuidelines}
                 />
 
-                <TrainingGuidelines />
+                {/* <TrainingGuidelines /> */}
                 
                 <RegistrationStatus
                   allVectorsSufficient={allVectorsSufficient}

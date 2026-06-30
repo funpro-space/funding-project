@@ -90,7 +90,7 @@ export default function AIChatbox() {
   return (
     <>
       {!isOpen && (
-        <section className="py-5 px-4 md:px-8 z-10 relative flex flex-col items-center w-full max-w-7xl mx-auto">
+        <section className="py-5 px-4 md:px-8 z-10 relative flex flex-col items-center w-full max-w-7xl mx-auto animate-hero opacity-0">
           {/* Header block describing the interactive underwriting sandbox */}
 
           <div className="w-full max-w-4xl px-6 pb-6 md:px-8 md:pb-8 rounded-[var(--brand-radius-lg)] relative overflow-visible">

@@ -65,9 +65,9 @@ export default function HomePage() {
     if (!isLoaded) return;
 
     const elements = containerRef.current?.querySelectorAll('.animate-hero');
-    const fadeElement = containerRef.current?.querySelector('.animate-hero-fade');
+    const fadeElements = containerRef.current?.querySelectorAll('.animate-hero-fade');
 
-    if ((elements && elements.length > 0) || fadeElement) {
+    if ((elements && elements.length > 0) || (fadeElements && fadeElements.length > 0)) {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
       
       if (elements && elements.length > 0) {
@@ -77,9 +77,9 @@ export default function HomePage() {
         );
       }
 
-      if (fadeElement) {
-        tl.fromTo(fadeElement,
-          { opacity: 1 }, // Changed opacity starting point if needed
+      if (fadeElements && fadeElements.length > 0) {
+        tl.fromTo(fadeElements,
+          { opacity: 0 },
           { opacity: 1, duration: 0.8 },
           "-=0.2"
         );
@@ -104,7 +104,7 @@ export default function HomePage() {
       {/* STEPPER SECTION */}
       <section className="stepper-section py-5 md:py-12">
         {/* Stepper Header Title Block */}
-        <div className="text-center mb-10 relative z-10">
+        <div className="text-center mb-10 relative z-10 animate-hero opacity-0">
           <h3 className="brand-h3">
             Our Project Development Status and Next Steps
           </h3>
@@ -113,8 +113,8 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="stepper-glow-bg" />
-        <div className="stepper-outer-container">
+        <div className="stepper-glow-bg animate-hero-fade opacity-0" />
+        <div className="stepper-outer-container animate-hero opacity-0">
           <OnchainStepper />
         </div>
       </section>

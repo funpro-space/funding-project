@@ -22,7 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const navRef = useRef<HTMLElement>(null);
   const { isLoaded } = useAnimation();
-  const { openWorkspace, openUpdates } = useWorkspaceModal();
+  const { openWorkspace } = useWorkspaceModal();
   const { login, authenticated: isConnected } = usePrivy();
 
   // Entrance animation: slide down on loader complete
@@ -164,9 +164,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* BUSINESS EVALUATION ACTION INSIDE THE LIQUID FLOATING NAV */}
           <div className="navbar-cta-wrapper flex items-center gap-2 md:gap-3">
-            <ButtonRegular onClick={openUpdates} variant="default" className="text-xs uppercase tracking-wider font-bold">
-               Updates
-            </ButtonRegular>
             {!isConnected ? (
               <ButtonRegular onClick={login} variant="accent" className="text-xs uppercase tracking-wider font-bold">
                 Connect Wallet

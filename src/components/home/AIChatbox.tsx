@@ -158,7 +158,7 @@ export default function AIChatbox() {
                     <ModernMenuContent className="workspace-prompt-menu-content">
                       <ModernMenuItem
                         index={0}
-                        className="workspace-prompt-item !cursor-default w-fit p-4 flex flex-col gap-3"
+                        className="workspace-prompt-item workspace-how-to-write-card !cursor-default p-4 flex flex-col gap-3"
                         onClick={(e) => {
                           // Prevent closing menu when clicking on the guidelines card
                           e.stopPropagation();

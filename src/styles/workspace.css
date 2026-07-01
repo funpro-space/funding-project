@@ -1314,6 +1314,34 @@
   transform: scale(0.98);
 }
 
+/* How to write narrative guidelines card styling - fully responsive on mobile */
+.workspace-prompt-item.workspace-how-to-write-card {
+  width: 90vw !important;
+  max-width: 25rem !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+}
+
+.workspace-prompt-item.workspace-how-to-write-card .checkbox-label {
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+}
+
+@media (min-width: 640px) {
+  .workspace-prompt-item.workspace-how-to-write-card {
+    width: 28rem !important;
+    max-width: 28rem !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .modern-menu-content.workspace-prompt-menu-content.is-row-layout {
+    left: 50% !important;
+    /* transform: translateX(-50%) !important; */
+  }
+}
+
 .workspace-prompt-btn-layout {
   width: 100%;
   text-align: left;

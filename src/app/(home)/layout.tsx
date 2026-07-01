@@ -11,6 +11,7 @@ import FunProLogoAlternative from '@/components/FunProLogoAlternative';
 import WorkspaceModal from '@/components/workspace/M_WorkspaceModal';
 import ProjectUpdatesModal from '@/components/updates/ProjectUpdatesModal';
 import Loader from '@/components/Loader';
+import { useWorkspaceModal } from '@/components/providers/WorkspaceModalProvider';
 
 export default function HomeLayout({
   children,
@@ -18,6 +19,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { openUpdates } = useWorkspaceModal();
   const [isNavigating, setIsNavigating] = useState(false);
   const [loaderText, setLoaderText] = useState("Loading...");
   const [currentPath, setCurrentPath] = useState(pathname);
@@ -107,21 +109,27 @@ export default function HomeLayout({
             </div>
 
             {/* Legal / Policy Links */}
-            <div className="flex justify-center gap-8 text-[14px] font-bold font-mono uppercase tracking-wider my-1">
+            <div className="flex justify-center items-center gap-8 text-[14px] font-bold font-mono uppercase tracking-wider my-1">
               <Link 
                 href="/terms" 
                 onClick={() => handleLinkClick("Loading Terms of Service...", "/terms")}
                 className="text-[var(--brand-text-dim)] hover:text-[var(--brand-primary)] transition-colors duration-200"
               >
-                Terms of Service
+                Terms
               </Link>
               <Link 
                 href="/privacy" 
                 onClick={() => handleLinkClick("Loading Privacy Policy...", "/privacy")}
                 className="text-[var(--brand-text-dim)] hover:text-[var(--brand-primary)] transition-colors duration-200"
               >
-                Privacy Policy
+                Privacy
               </Link>
+              <button 
+                onClick={openUpdates}
+                className="text-[var(--brand-text-dim)] hover:text-[var(--brand-primary)] transition-colors duration-200 bg-transparent border-none p-0 outline-none cursor-pointer font-bold font-mono uppercase tracking-wider text-[14px] relative z-10"
+              >
+                Updates
+              </button>
             </div>
 
             {/* Glassmorphic Social Section */}
